@@ -15,7 +15,6 @@ __version__ = (1, 0, 0)
 from .. import loader, utils
 from telethon.tl.types import Message
 import random
-import logging 
 
 chat = "anertsy"
 
