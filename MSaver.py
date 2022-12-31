@@ -12,6 +12,7 @@ __version__ = (1, 0, 0)
 
 # scope: hikka_only
 # scope: hikka_min 1.5.3
+# meta banner: https://x0.at/fuuJ.jpg
 # meta developer: @shitmodules
 
 from telethon import functions
