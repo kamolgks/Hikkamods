@@ -53,7 +53,7 @@ class GachiGalleryMod(loader.Module):
   
   strings = {"name": "GachiGallery"}
   
-  @loader.command(ru_doc="Скидывает инлайн галерею с мемами (гачи мемы)", only_pm=True)
+  @loader.command(ru_doc="Скидывает инлайн галерею с мемами (гачи мемы)")
   async def gachicmd(self, message: Message):
     """.gachi > sends random gachi photos and memes"""
     await self.inline.gallery(message, random_photo, caption=generate_caption,)
