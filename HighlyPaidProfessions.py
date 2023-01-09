@@ -51,12 +51,6 @@ class HighlyPaidProfessions(loader.Module):
     "wait": "<emoji document_id=5213452215527677338>⏳</emoji><b>Laden...</b>",
   }
 
-  async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
-        post = (await client.get_messages("shitmodules", ids=831))
-        await post.react("❤️")
-
   async def client_ready(self):
         self.messages = await self.client.get_messages(chat, limit=None)
   
