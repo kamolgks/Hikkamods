@@ -29,7 +29,7 @@ class Anecdote(loader.Module):
     async def client_ready(self):
     	self.messages = await self.client.get_messages(chat, limit=100)
 
-    @loader.command()
+    @loader.command(ru_doc="Скидывает рандомный анекдот")
     async def aneccmd(self, message: Message):
         """Sends an anecdote (not always funny) by @shitmodules"""
         wtf = random.choice(self.messages)
