@@ -16,13 +16,14 @@ __version__ = (0, 0, 1)
 
 # scope: hikka_only
 # scope: hikka_min 1.6.0
-# meta pic: 
+# meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/HighlyPaidProfessions.jpg
 # meta banner: https://x0.at/qGYX.gif
 # meta developer: @shitmodules
 
+import random
+
 from .. import loader, utils
 from telethon.tl.types import Message
-import random
 from time import sleep
 
 chat = "prfhgd"
