@@ -1,7 +1,10 @@
 __version__ = (0, 0, 1)
-#   █▀▀▀█  █▀▄▀█ 
-#   ▀▀▀▄▄  █ ▀ █   (𝐒𝐡𝐢𝐭 𝐦𝐨𝐝𝐬)
-#   █▄▄▄█  █   █
+#   ___    _         _                             _         _                
+#  (  _`\ ( )     _ ( )_                          ( )       (_ )              
+#  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
+#  `\__ \ |  _ `\| || |     /' _ ` _ `\ /'_`\  /'_` |( ) ( ) | |  /'__`\/',__)
+#  ( )_) || | | || || |_    | ( ) ( ) |( (_) )( (_| || (_) | | | (  ___/\__, \
+#  `\____)(_) (_)(_)`\__)   (_) (_) (_)`\___/'`\__,_)`\___/'(___)`\____)(____/
 #        
 #            © Copyright 2022
 #
@@ -31,6 +34,6 @@ class Anecdote(loader.Module):
 
     @loader.command(ru_doc="Скидывает рандомный анекдот")
     async def aneccmd(self, message: Message):
-        """Sends an anecdote (not always funny) by @shitmodules"""
+        """Sends an anecdote (not always funny)"""
         wtf = random.choice(self.messages)
         await utils.answer(message, wtf)
