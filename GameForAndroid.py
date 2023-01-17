@@ -14,7 +14,7 @@ __version__ = (0, 0, 1)
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
 
 # scope: hikka_only
-# scope: hikka_min 1.6.0
+# scope: hikka_min 1.5.3
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/GameForAndroid.jpg
 # meta banner: https://x0.at/0H0-.gif
