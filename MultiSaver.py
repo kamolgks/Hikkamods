@@ -78,7 +78,7 @@ class MultiSaverMod(loader.Module):
 
     @loader.command(ru_doc="Скачать фото/видео из инстаграм, Тик ток и Пинтереста (вернулся команду по многочисленным просьбам)")
     async def imtcmd(self, message):
-        """> .imt photo/video link (returned the command for all types of downloads, by popular demand. )"""
+        """> .imt photo/video link (Returned the general team by popular demand)"""
         url = utils.get_args_raw(message)
         if not url:
                 return await utils.answer(message, self.strings("gde_link", message))
