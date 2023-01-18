@@ -319,11 +319,6 @@ class GameForAndroidMod(loader.Module):
           ],
         )
 
-    async def test(self, *_):
-        await self.client.send_message(
-          self.chat_id, self.strings("test"), file="https://t.me/progi95/3806",
-        )
-
     async def durak_online(self, *_):
       await self.client.send_message(
         self.chat_id, self.strings("durak_online"), file="https://t.me/logimeh/9",
@@ -346,7 +341,7 @@ class GameForAndroidMod(loader.Module):
 
     async def chess_cl(self, *_):
       await self.client.send_message(
-        self.chat_id, self.strings("chess_cl"), file="https://t.me/logimeh/13",
+        self.chat_id, self.strings("chess_cl"), file="https://t.me/logimeh/14",
       )
 
     async def clash_r(self, *_):
