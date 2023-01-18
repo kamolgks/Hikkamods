@@ -1,4 +1,4 @@
-__version__ = (0, 0, 6)
+__version__ = (0, 0, 7)
 #   ___    _         _                             _         _                
 #  (  _`\ ( )     _ ( )_                          ( )       (_ )              
 #  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
@@ -75,6 +75,30 @@ class MultiSaverMod(loader.Module):
             "<emoji document_id=5348548199915200824>🔫</emoji><b>और लिंक कहां है?</b>"
         ),
     }
+
+    @loader.command(ru_doc="Скачать фото/видео из инстаграм, Тик ток и Пинтереста")
+    async def imtcmd(self, message):
+        """> .imt photo/video link (returned the command for all types of downloads, according to the methods )"""
+        url = utils.get_args_raw(message)
+        if not url:
+                return await utils.answer(message, self.strings("gde_link", message))
+        message = await utils.answer(message, self.strings("processing"))
+        async with self._client.conversation("SaveAsBot") as conv:
+                msgs = []
+                msgs += [await conv.send_message("/start")]
+                msgs += [await conv.get_response()]
+                msgs += [await conv.send_message(url)]
+                m = await conv.get_response()
+            
+        await self._client.send_file(message.peer_id, m.media, caption=self.strings("otl"), reply_to=message.reply_to_msg_id,)
+        
+        for msg in msgs + [m]:
+            await msg.delete()
+
+        if message.out:
+            await message.delete()
+            
+        await self.client.delete_dialog("SaveAsBot")
 
     @loader.command("> .ins ссылка на видео/фото | Скачать видео/фото из инсты")
     async def inscmd(self, message):
