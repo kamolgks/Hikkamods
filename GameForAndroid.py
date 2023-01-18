@@ -341,7 +341,7 @@ class GameForAndroidMod(loader.Module):
 
     async def chess_cl(self, *_):
       await self.client.send_message(
-        self.chat_id, self.strings("chess_cl"), file="https://t.me/logimeh/14",
+        self.chat_id, self.strings("chess_cl"), file="https://t.me/logimeh/13",
       )
 
     async def clash_r(self, *_):
@@ -351,7 +351,7 @@ class GameForAndroidMod(loader.Module):
 
     async def clash_cl(self, *_):
     	await self.client.send_message(
-    	  self.chat_id, self.strings("clash_cl"), file="https://t.me/androeed_games/44429",
+    	  self.chat_id, self.strings("clash_cl"), file="https://t.me/logimeh/14",
       )
 
     async def stick_war(self, *_):
