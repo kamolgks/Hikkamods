@@ -100,6 +100,7 @@ class MultiSaverMod(loader.Module):
             
         await self.client.delete_dialog("SaveAsBot")
 
+        
     @loader.command("> .ins ссылка на видео/фото | Скачать видео/фото из инсты")
     async def inscmd(self, message):
         """> .ins photo/video link | Download video/image from Instagram"""
