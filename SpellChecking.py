@@ -88,6 +88,7 @@ class SpellChecking(loader.Module):
         await post.react("❤️")
         await client(JoinChannelRequest(channel=self.strings("author")))
 
+
     @loader.command(
         ru_doc="Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
         kz_doc="Мәтінді емле қателеріне тексереді. (Аргументтер саны екіден кем емес!)",
