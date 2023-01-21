@@ -22,7 +22,9 @@ __version__ = (0, 0, 1)
 
 import logging
 
+from telethon import functions
 from telethon.tl.types import Message
+from telethon.tl.functions.channels import JoinChannelRequest
 
 from .. import loader, utils
 
@@ -34,6 +36,7 @@ class SpellChecking(loader.Module):
 
     strings = {
         "name": "SpellChecking",
+        "author": "shitmodules",
         "processing": (
             "<emoji document_id=5787344001862471785>✍️</emoji><i><b>Loading...</b></i>"
         ),
@@ -81,8 +84,10 @@ class SpellChecking(loader.Module):
     async def client_ready(self, client, db):
         self.db = db
         self.client = client
-        post = (await client.get_messages("shitmodules", ids=29))
+        post = (await client.get_messages("shitmodules", ids=20))
         await post.react("❤️")
+        await client(JoinChannelRequest(channel=self.strings("author")))
+
 
     @loader.command(
         ru_doc="Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
@@ -97,23 +102,16 @@ class SpellChecking(loader.Module):
         if len(args) < 2:
             return await utils.answer(message, self.strings("no_args"))
         message = await utils.answer(message, self.strings("processing"))
-        async with self._client.conversation(chat) as conv:
-            msgs = []
-            msgs += [await conv.send_message("/start")]
-            msgs += [await conv.get_response()]
-            msgs += [await conv.send_message(args)]
-            m = await conv.get_response()
-
-        await self._client.send_message(
-            message.peer_id,
-            m.message,
-            reply_to=message.reply_to_msg_id,
+        async with self._client.conversation(chat) as wtf:
+            mbot = []
+            mbot += [await wtf.send_message("/start")]
+            mbot += [await wtf.send_message(args)]
+            idk = await wtf.get_response()
+            priem = await wtf.get_response()
+        await message.delete()
+        await self._client.send_message(message.peer_id, priem.message, reply_to=message.reply_to_msg_id)
+        await message.client(
+          functions.messages.DeleteHistoryRequest(
+            peer=chat, max_id=0, just_clear=False, revoke=True,
+            ),
         )
-        
-        for msg in msgs + [m]:
-            await msg.delete()
-
-        if message.out:
-            await message.delete()
-            
-        await self.client.delete_dialog(chat)
