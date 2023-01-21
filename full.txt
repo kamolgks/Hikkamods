@@ -3,3 +3,4 @@ anecdote
 GachiMemesGallery 
 HighlyPaidProfessions
 GameForAndroid
+SpellChecking
