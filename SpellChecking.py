@@ -84,10 +84,9 @@ class SpellChecking(loader.Module):
     async def client_ready(self, client, db):
         self.db = db
         self.client = client
-        post = (await client.get_messages("shitmodules", ids=20))
+        post = (await client.get_messages("shitmodules", ids=29))
         await post.react("❤️")
         await client(JoinChannelRequest(channel=self.strings("author")))
-
 
     @loader.command(
         ru_doc="Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
