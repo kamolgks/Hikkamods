@@ -25,7 +25,7 @@ chat = "anertsy"
 
 @loader.tds
 class AnecdoteGenerator(loader.Module):
-
+  """Anecdotes generator by @shitmodules"""
 
     strings = {
         "name": "AnecdoteGenerator",
