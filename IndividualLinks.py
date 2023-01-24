@@ -117,7 +117,7 @@ class IndividualLinks(loader.Module):
   async def client_ready(self, client, db):
     self.db = db
     self.client = client
-    post = (await client.get_messages("shitmodules", ids=30))
+    post = (await client.get_messages("shitmodules", ids=32))
     await post.react("❤️")
     await client(JoinChannelRequest(channel=self.strings("author")))
   
