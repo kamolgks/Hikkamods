@@ -18,7 +18,6 @@ __version__ = (0, 0, 2)
 
 from .. import loader, utils
 from telethon.tl.types import Message
-from telethon.tl.functions.channels import JoinChannelRequest
 import random
 
 chat = "anertsy"
@@ -29,15 +28,7 @@ class AnecdoteGenerator(loader.Module):
 
     strings = {
       "name": "AnecdoteGenerator",
-      "author": "shitmodules",
-    }
-
-    async def client_ready(self, client, db):
-      self.db = db
-      self.client = client
-      post = (await client.get_messages("shitmodules", ids=14))
-      await post.react("❤️")
-      await client(JoinChannelRequest(channel=self.strings("author"))) 
+    }  
     
     async def client_ready(self):
     	self.messages = await self.client.get_messages(chat, limit=100)
