@@ -17,7 +17,7 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.0
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/IndividualLinks.jpg
-# meta banner: 
+# meta banner: https://te.legra.ph/file/a68d6b0715e417b619f78.mp4
 # meta developer: @shitmodules
 
 import logging
