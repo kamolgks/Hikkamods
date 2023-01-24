@@ -28,8 +28,8 @@ class AnecdoteGenerator(loader.Module):
   """Anecdotes generator by @shitmodules"""
 
     strings = {
-        "name": "AnecdoteGenerator",
-        "author": "shitmodules",
+      "name": "AnecdoteGenerator",
+      "author": "shitmodules",
     }
 
     async def client_ready(self, client, db):
