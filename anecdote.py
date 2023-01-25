@@ -22,18 +22,15 @@ import random
 
 chat = "anertsy"
 
-@loader.tds
-class AnecdoteGenerator(loader.Module):
-  """Anecdotes generator by @shitmodules"""
+class Anecdote(loader.Module):
 
     strings = {
-      "name": "AnecdoteGenerator",
-    }  
+        "name": "AnecdoteGenerator",
+    }
     
     async def client_ready(self):
     	self.messages = await self.client.get_messages(chat, limit=100)
 
-    @loader.command(ru_doc="Скидывает рандомный анекдот")
     async def aneccmd(self, message: Message):
         """Sends an anecdote (not always funny)"""
         wtf = random.choice(self.messages)
