@@ -22,7 +22,7 @@ import random
 
 chat = "anertsy"
 
-class Anecdote(loader.Module):
+class AnecdoteGenerator(loader.Module):
 
     strings = {
         "name": "AnecdoteGenerator",
