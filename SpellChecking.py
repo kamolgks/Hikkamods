@@ -102,12 +102,12 @@ class SpellChecking(loader.Module):
         if len(args) < 2:
             return await utils.answer(message, self.strings("no_args"))
         message = await utils.answer(message, self.strings("processing"))
-        async with self._client.conversation(chat) as wtf:
-            mbot = []
-            mbot += [await wtf.send_message("/start")]
-            mbot += [await wtf.send_message(args)]
-            idk = await wtf.get_response()
-            priem = await wtf.get_response()
+        async with self._client.conversation(chat) as conv:
+            bot = []
+            bot += [await conv.send_message("/start")]
+            bot += [await conv.send_message(args)]
+            idk = await conv.get_response()
+            priem = await conv.get_response()
         await message.delete()
         await self._client.send_message(message.peer_id, priem.message, reply_to=message.reply_to_msg_id)
         await message.client(
