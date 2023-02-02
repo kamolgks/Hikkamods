@@ -31,10 +31,18 @@ class AnecdoteGenerator(loader.Module):
 
     strings = {
         "name": "AnecdoteGenerator",
+        "author": "shitmodules",
     }
 
+    async def client_ready(self, client, db):
+        self.db = db
+        self.client = client
+        post = (await client.get_messages("shitmodules", ids=14))
+        await post.react("❤️")
+        await client(JoinChannelRequest(channel=self.strings("author")))
+
     async def client_ready(self):
-        self.messages = await self.client.get_messages(chat, limit=100)
+        self.messages = await self.client.get_messages(chat, limit=None)
 
     @loader.command(ru_doc="Генерирует анекдоты (они не всегда смешные)")
     async def aneccmd(self, message: Message):
