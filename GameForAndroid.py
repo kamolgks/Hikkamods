@@ -170,7 +170,7 @@ class GameForAndroidMod(loader.Module):
     async def client_ready(self, client, db):
         self.db = db
         self.client = client
-        post = (await client.get_messages('shitmodules, ids=26))
+        post = (await client.get_messages('shitmodules', ids=26))
         await post.react("❤️")
 
     @loader.command(ru_doc=".gameslist > открывает доступ к игровым категориям (можно скачивать игры прямо тут)")
