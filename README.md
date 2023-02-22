@@ -1,2 +1,2 @@
-# Hikka modules by @shitmodules (tg channel)
-***My mods for userbot*** :diamond_shape_with_a_dot_inside:
+# Hikka modules by <a href="https/t.me/shitmodules">shitmodules</a>
+***My mods for userbot***
