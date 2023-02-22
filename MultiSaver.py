@@ -1,4 +1,4 @@
-__version__ = (0, 0, 7)
+__version__ = (0, 0, 8)
 #   ___    _         _                             _         _                
 #  (  _`\ ( )     _ ( )_                          ( )       (_ )              
 #  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
@@ -14,180 +14,106 @@ __version__ = (0, 0, 7)
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
 
 # scope: hikka_only
-# scope: hikka_min 1.6.0
+# scope: hikka_min 1.5.3
+
 # meta banner: https://x0.at/c9cJ.mp4
 # meta developer: @shitmodules
 
-from .. import utils, loader
 import logging
+
+from time import sleep
+from telethon import functions
+from telethon.errors.rpcerrorlist import YouBlockedUserError
+
+from .. import utils, loader
 
 logger = logging.getLogger(__name__)
 
 @loader.tds
-class MultiSaverMod(loader.Module):
+class MultiSaver(loader.Module):
     """Download video, photo from instagram, TikTok and Pinterest"""
 
     strings = {
         "name": "MultiSaver",
         "processing": (
-            "<emoji document_id=5346152548761868765>💜</emoji><b>Processing...</b>"
+            "<emoji document_id=5346152548761868765>💜</emoji><i><b>Processing...</i></b>"
         ),
         "otl": (
-            "<emoji document_id=5472104053854968558>❤</emoji><b>Successfuly downloaded</b>"
+            "<emoji document_id=5472104053854968558>❤</emoji><i><b>Successfuly downloaded</i></b>"
         ),
         "gde_link": (
-            "<emoji document_id=5348548199915200824>🔫</emoji><b>Where is the link?</b>"
+            "<emoji document_id=5215552806722738551>👎</emoji><i><b>Where is the link?</i></b>"
+        ),
+        "unl_bot" :(
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Unblock @saveasbot bot"
         ),
     }
 
     strings_ru = {
         "processing": (
-            "<emoji document_id=5346152548761868765>💜</emoji><b>Загрузка...</b>"
+            "<emoji document_id=5346152548761868765>💜</emoji><i><b>Загрузка...</i></b>"
         ),
         "otl": (
-            "<emoji document_id=5472104053854968558>❤</emoji><b>Успешно загружено</b>"
+            "<emoji document_id=5472104053854968558>❤</emoji><i><b>Успешно загружено</i></b>"
         ),
         "gde_link": (
-            "<emoji document_id=5348548199915200824>🔫</emoji><b>А где ссылка?</b>"
+            "<emoji document_id=5215552806722738551>👎</emoji><i><b>А где ссылка?</i></b>"
+        ),
+        "unl_bot": (
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Разблокируй @saveasbot бота"
         ),
     }
 
     strings_uz = {
         "processing": (
-            "<emoji document_id=5346152548761868765>💜</emoji><b>Yuklanmoqda...</b>"
+            "<emoji document_id=5346152548761868765>💜</emoji><i><b>Yuklanmoqda...</i></b>"
         ),
         "otl": (
-            "<emoji document_id=5472104053854968558>❤</emoji><b>Muvaffaqiyatli yuklab olindi</b>"
+            "<emoji document_id=5472104053854968558>❤</emoji><i><b>Muvaffaqiyatli yuklab olindi</i></b>"
         ),
         "gde_link": (
-            "<emoji document_id=5348548199915200824>🔫</emoji><b>Havola qani?</b>"
+            "<emoji document_id=5215552806722738551>👎</emoji><i><b>Havola qani?</i></b>"
+        ),
+        "unl_bot" :(
+            "<emoji document_id=5215557810359639942>⚠️</emoji>@saveasbot botini blokdan chiqarish"
         ),
     }
 
-    strings_hi = {
-        "processing": (
-            "<emoji document_id=5346152548761868765>💜</emoji><b>लोड हो रहा है । ..</b>"
-        ),
-        "otl": (
-            "<emoji document_id=5472104053854968558>❤</emoji><b>सफलतापूर्वक अपलोड किया गया</b>"
-        ),
-        "gde_link": (
-            "<emoji document_id=5348548199915200824>🔫</emoji><b>और लिंक कहां है?</b>"
-        ),
-    }
+    async def client_ready(self, client, db):
+        self.db = db
+        self.client = client
+        post = (await client.get_messages("shitmodules", ids=10))
+        await post.react("❤️")
 
-    @loader.command(ru_doc="Скачать фото/видео из инстаграм, Тик ток и Пинтереста")
+
+    @loader.command(
+        ru_doc="> .imt Скачать фото/видео из инстаграм, Тик ток и Пинтереста",
+        uz_doc="> .imt Foto/videoni instagram, tik tok va pinterestdan yuklab oling",
+    )
     async def imtcmd(self, message):
-        """> .imt photo/video link (Returned the general team by popular demand)"""
-        url = utils.get_args_raw(message)
-        if not url:
-                return await utils.answer(message, self.strings("gde_link", message))
-        message = await utils.answer(message, self.strings("processing"))
-        async with self._client.conversation("SaveAsBot") as conv:
-                msgs = []
-                msgs += [await conv.send_message("/start")]
-                msgs += [await conv.get_response()]
-                msgs += [await conv.send_message(url)]
-                m = await conv.get_response()
-            
-        await self._client.send_file(message.peer_id, m.media, caption=self.strings("otl"), reply_to=message.reply_to_msg_id,)
-        
-        for msg in msgs + [m]:
-            await msg.delete()
-
-        if message.out:
-            await message.delete()
-            
-        await self.client.delete_dialog("SaveAsBot")
-
-        
-    @loader.command("> .ins ссылка на видео/фото | Скачать видео/фото из инсты")
-    async def inscmd(self, message):
-        """> .ins photo/video link | Download video/image from Instagram"""
+        """> .imt photo/video link"""
         url = utils.get_args_raw(message)
         if not url:
             return await utils.answer(message, self.strings("gde_link", message))
-        message = await utils.answer(message, self.strings("processing"))
-        async with self._client.conversation("savezbot") as conv:
-                msgs = []
-                msgs += [await conv.send_message("/start")]
-                msgs += [await conv.get_response()]
-                msgs += [await conv.send_message(url)]
-                m = await conv.get_response()
-            
+        proc = await utils.answer(message, self.strings("processing"))
+
+        async with self._client.conversation("SaveAsBot") as conv:
+            try:
+                bot = []
+                bot += [await conv.send_message(url)]
+                priem = await conv.get_response()
+            except YouBlockedUserError:
+                return await utils.answer(message, self.strings("unl_bot"))
+
         await self._client.send_file(
             message.peer_id,
-            m.media,
+            priem.media,
             caption=self.strings("otl"),
             reply_to=message.reply_to_msg_id,
         )
 
-        for msg in msgs + [m]:
-            await msg.delete()
+        await proc.delete()
 
-        if message.out:
-            await message.delete()
+        sleep(1)
 
-        await self.client.delete_dialog("savezbot")
-            
-          
-    @loader.command(ru_doc="> .tts ссылка на видео | Скачать видео из Тик Тока")
-    async def ttscmd(self, message):
-      """> .tts video link | Download video from Tik-Tok"""
-      url = utils.get_args_raw(message)
-      if not url:
-        await utils.answer(message, self.strings("gde_link"))
-        return 
-      message = await utils.answer(message, self.strings("processing"))
-      async with self._client.conversation("saveit_tt_bot") as conv:
-        msgs = []
-        msgs += [await conv.send_message("/start")]
-        msgs += [await conv.get_response()]
-        msgs += [await conv.send_message(url)]
-        m = await conv.get_response()
-
-        await self._client.send_file(
-            message.peer_id,
-            m.media,
-            caption=self.strings("otl"),
-            reply_to=message.reply_to_msg_id,
-        )
-        
-        for msg in msgs + [m]:
-            await msg.delete()
-
-        if message.out:
-            await message.delete()
-           
-        await self.client.delete_dialog("saveit_tt_bot")
-
-
-    @loader.command(ru_doc="> .pin ссылка на видео | Скачать видео из Pinterest")
-    async def pincmd(self, message):
-        """> .pin video link | Download video from Pinterest"""
-        url = utils.get_args_raw(message)
-        if not url:
-            await utils.answer(message, self.strings("gde_link"))
-            return
-        message = await utils.answer(message, self.strings("processing"))
-        async with self._client.conversation("saveasbot") as conv:
-            msgs = []
-            msgs += [await conv.send_message("/start")]
-            msgs += [await conv.get_response()]
-            msgs += [await conv.send_message(url)]
-            m = await conv.get_response()
-
-        await self._client.send_file(
-            message.peer_id,
-            m.media,
-            caption=self.strings("otl"),
-            reply_to=message.reply_to_msg_id,
-        )
-        
-        for msg in msgs + [m]:
-            await msg.delete()
-
-        if message.out:
-            await message.delete()
-            
-        await self.client.delete_dialog("saveasbot")
+        await self.client.delete_dialog("SaveAsBot")
