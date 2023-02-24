@@ -16,6 +16,7 @@ __version__ = (0, 0, 1)
 
 # scope: hikka_only
 # scope: hikka_min 1.6.0
+
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/HighlyPaidProfessions.jpg
 # meta banner: https://x0.at/qGYX.gif
 # meta developer: @shitmodules
@@ -25,8 +26,6 @@ import random
 from .. import loader, utils
 from telethon.tl.types import Message
 from time import sleep
-
-chat = "prfhgd"
 
 @loader.tds
 class HighlyPaidProfessions(loader.Module):
@@ -41,20 +40,8 @@ class HighlyPaidProfessions(loader.Module):
     "wait": "<emoji document_id=5213452215527677338>⏳</emoji><b>Загрузка...</b>",
   }
 
-  setlang_tr = {
-    "wait": "<emoji document_id=5213452215527677338>⏳</emoji><b>Yükleniyor...</b>",
-  }
-
-  strings_hi = {
-    "wait": "<emoji document_id=5213452215527677338>⏳</emoji><b>लोड हो रहा है । ..</b>",
-  }
-
   strings_uz = {
     "wait": "<emoji document_id=5213452215527677338>⏳</emoji><b>Yuklanmoqda...</b>",
-  }
-
-  setlang_de = {
-    "wait": "<emoji document_id=5213452215527677338>⏳</emoji><b>Laden...</b>",
   }
 
   async def client_ready(self):
@@ -63,10 +50,10 @@ class HighlyPaidProfessions(loader.Module):
   @loader.command(ru_doc="Самые высокооплачиваемые профессии в мире")
   async def profscmd(self, message: Message):
     """.profs The highest paid professions in the world"""
+
+    chat = "prfhgd"
+
     wtf = random.choice(self.messages)
     await utils.answer(message, self.strings("wait"))
     sleep(2)
-    await utils.answer(
-      message, 
-      wtf,
-      )
+    await utils.answer(message, wtf)
