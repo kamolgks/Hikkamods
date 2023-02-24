@@ -1,4 +1,4 @@
-__version__ = (0, 0, 1)
+__version__ = (0, 0, 2)
 #   ___    _         _                             _         _                
 #  (  _`\ ( )     _ ( )_                          ( )       (_ )              
 #  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
@@ -25,10 +25,13 @@ import logging
 from telethon import functions
 from telethon.tl.types import Message
 from telethon.tl.functions.channels import JoinChannelRequest
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from .. import loader, utils
 
+
 logger = logging.getLogger(__name__)
+
 
 @loader.tds
 class SpellChecking(loader.Module):
@@ -43,6 +46,9 @@ class SpellChecking(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><i><b>There are no arguments or they are not enough!</b></i>"
         ),
+        "unl_bot" :(
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Unblock @Engy_Orthography_Bot bot"
+        ),
     }
     
     strings_ru = {
@@ -52,14 +58,8 @@ class SpellChecking(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><i><b>Нету аргументов или их недостаточно!</b></i>"
         ),
-    }
-
-    strings_kz = {
-        "processing": (
-            "<emoji document_id=5787344001862471785>>️</emoji><i><b > жүктеу...</b></i>"
-        ),
-        "no_args": (
-            "<emoji document_id=5215552806722738551 > 👎< / emoji><i > <b>дәлелдер жоқ немесе жеткіліксіз!</b></i>"
+        "unl_bot": (
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Разблокируй @Engy_Orthography_Bot бота"
         ),
     }
 
@@ -70,14 +70,20 @@ class SpellChecking(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><i><b>argumentlar yo'q yoki ular etarli emas!</b></i>"
         ),
+        "unl_bot" :(
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Engy_Orthography_Bot botini blokdan chiqarish"
+        ),
     }
 
-    strings_tr = {
+    strings_kk = {
         "processing": (
-            "<emoji document_id=5787344001862471785>✍️</emoji><i><b>indiriliyor...</b></i>"
+            "<emoji document_id=5787344001862471785>>️</emoji><i><b > жүктеу...</b></i>"
         ),
         "no_args": (
-            "<emoji document_id=5215552806722738551>👎</emoji><i><b>Argüman yok veya yeterli değil!</b></i>"
+            "<emoji document_id=5215552806722738551 >👎</emoji><i><b>дәлелдер жоқ немесе жеткіліксіз!</b></i>"
+        ),
+        "unl_bot": (
+            "<emoji document_id=5215557810359639942>⚠️</emoji>@Engy_Orthography_Bot ботының бұғатын алу"
         ),
     }
 
@@ -91,23 +97,26 @@ class SpellChecking(loader.Module):
 
     @loader.command(
         ru_doc="Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
-        kz_doc="Мәтінді емле қателеріне тексереді. (Аргументтер саны екіден кем емес!)",
-        tr_doc="Metni yazım hataları için doğrular. (En az iki argüman sayısı!)",
+        kk_doc="Мәтінді емле қателеріне тексереді. (Аргументтер саны екіден кем емес!)",
         uz_doc="Matnni imlo xatolarini tekshiradi. (Argumentlar soni kamida ikkitasi!)",
     )
     async def orfgcmd(self, message: Message):
-        """> .orfg <Suggestion for checking spelling errors> {args > 2}"""
+        """> <Suggestion for checking spelling errors> [args > 2]"""
         chat = "Engy_Orthography_Bot"
         args = utils.get_args_raw(message)
         if len(args) < 2:
             return await utils.answer(message, self.strings("no_args"))
         message = await utils.answer(message, self.strings("processing"))
         async with self._client.conversation(chat) as conv:
-            bot = []
-            bot += [await conv.send_message("/start")]
-            bot += [await conv.send_message(args)]
-            idk = await conv.get_response()
-            priem = await conv.get_response()
+            try:
+                bot = []
+                bot += [await conv.send_message("/start")]
+                bot += [await conv.send_message(args)]
+                idk = await conv.get_response()
+                priem = await conv.get_response()
+            except YouBlockedUserError:
+                return await utils.answer(message, self.strings("unl_bot"))
+                
         await message.delete()
         await self._client.send_message(message.peer_id, priem.message, reply_to=message.reply_to_msg_id)
         await message.client(
