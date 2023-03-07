@@ -34,19 +34,26 @@ class DelBots(loader.Module):
     """Instant stop or removal of all running Telegram bots"""
 
     strings = {
-      "name": "DelBots",
-      "author": "shitmodules",
-      "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Starting to stop bots...</b>",
-      "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove bots...</b>",
-      "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully stopped</b>",
-      "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>", 
+        "name": "DelBots",
+        "author": "shitmodules",
+        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Starting to stop bots...</b>",
+        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove bots...</b>",
+        "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully stopped</b>",
+        "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>", 
     }
-
-
+    
+    strings_ru = {
+        "name": "DelBots",
+        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Начинаем останавливать ботов...</b>",
+        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>Я начинаю удалять ботов...</b>",
+        "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты успешно остановлены</b>",
+        "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно удалены</b>"
+    }
+    
     async def client_ready(self, client, db):
         self.db = db
         self.client = client
-        post = (await client.get_messages(self.strings("author"), ids=32))
+        post = (await client.get_messages(self.strings("author"), ids=39))
         await post.react("❤️")
         await client(JoinChannelRequest(channel=self.strings("author")))
 
