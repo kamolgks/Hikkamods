@@ -6,3 +6,4 @@ GameForAndroid
 SpellChecking
 IndividualLinks
 AnonUploader
+DelBots
