@@ -21,8 +21,8 @@ __version__ = (0, 0, 2)
 # meta developer: @shitmodules
 
 import logging
+import asyncio
 
-from telethon import functions
 from telethon.tl.types import Message
 from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.errors.rpcerrorlist import YouBlockedUserError
@@ -46,7 +46,7 @@ class SpellChecking(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><i><b>There are no arguments or they are not enough!</b></i>"
         ),
-        "unl_bot" :(
+        "unbl_bot" :(
             "<emoji document_id=5215557810359639942>⚠️</emoji>Unblock @Engy_Orthography_Bot bot"
         ),
     }
@@ -58,7 +58,7 @@ class SpellChecking(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><i><b>Нету аргументов или их недостаточно!</b></i>"
         ),
-        "unl_bot": (
+        "unbl_bot": (
             "<emoji document_id=5215557810359639942>⚠️</emoji>Разблокируй @Engy_Orthography_Bot бота"
         ),
     }
@@ -70,7 +70,7 @@ class SpellChecking(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><i><b>argumentlar yo'q yoki ular etarli emas!</b></i>"
         ),
-        "unl_bot" :(
+        "unbl_bot" :(
             "<emoji document_id=5215557810359639942>⚠️</emoji>Engy_Orthography_Bot botini blokdan chiqarish"
         ),
     }
@@ -82,16 +82,18 @@ class SpellChecking(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551 >👎</emoji><i><b>дәлелдер жоқ немесе жеткіліксіз!</b></i>"
         ),
-        "unl_bot": (
+        "unbl_bot": (
             "<emoji document_id=5215557810359639942>⚠️</emoji>@Engy_Orthography_Bot ботының бұғатын алу"
         ),
     }
 
+
     async def client_ready(self, client, db):
         self.db = db
         self.client = client
-        post = (await client.get_messages("shitmodules", ids=29))
+        post = (await client.get_messages(self.strings("author"), ids=29))
         await post.react("❤️")
+
         await client(JoinChannelRequest(channel=self.strings("author")))
 
 
@@ -101,26 +103,22 @@ class SpellChecking(loader.Module):
         uz_doc="Matnni imlo xatolarini tekshiradi. (Argumentlar soni kamida ikkitasi!)",
     )
     async def orfgcmd(self, message: Message):
-        """> <Suggestion for checking spelling errors> [args > 2]"""
+        """> Suggestion for checking spelling errors [args > 2]"""
         chat = "Engy_Orthography_Bot"
         args = utils.get_args_raw(message)
         if len(args) < 2:
             return await utils.answer(message, self.strings("no_args"))
-        message = await utils.answer(message, self.strings("processing"))
+
+        msg = await utils.answer(message, self.strings("processing"))
+
         async with self._client.conversation(chat) as conv:
             try:
                 bot = []
-                bot += [await conv.send_message("/start")]
                 bot += [await conv.send_message(args)]
-                idk = await conv.get_response()
-                priem = await conv.get_response()
+                send = await conv.get_response()
             except YouBlockedUserError:
-                return await utils.answer(message, self.strings("unl_bot"))
-                
-        await message.delete()
-        await self._client.send_message(message.peer_id, priem.message, reply_to=message.reply_to_msg_id)
-        await message.client(
-          functions.messages.DeleteHistoryRequest(
-            peer=chat, max_id=0, just_clear=False, revoke=True,
-            ),
-        )
+                return await utils.answer(message, self.strings("unbl_bot"))
+
+        await msg.delete()
+        await self._client.send_message(message.peer_id, send.message)
+        await self.client.delete_dialog(chat)
