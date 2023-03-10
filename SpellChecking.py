@@ -21,7 +21,6 @@ __version__ = (0, 0, 2)
 # meta developer: @shitmodules
 
 import logging
-import asyncio
 
 from telethon.tl.types import Message
 from telethon.tl.functions.channels import JoinChannelRequest
@@ -98,9 +97,9 @@ class SpellChecking(loader.Module):
 
 
     @loader.command(
-        ru_doc="Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
-        kk_doc="Мәтінді емле қателеріне тексереді. (Аргументтер саны екіден кем емес!)",
-        uz_doc="Matnni imlo xatolarini tekshiradi. (Argumentlar soni kamida ikkitasi!)",
+        ru_doc="> Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
+        kk_doc="> Мәтінді емле қателеріне тексереді. (Аргументтер саны екіден кем емес!)",
+        uz_doc="> Matnni imlo xatolarini tekshiradi. (Argumentlar soni kamida ikkitasi!)",
     )
     async def orfgcmd(self, message: Message):
         """> Suggestion for checking spelling errors [args > 2]"""
@@ -119,6 +118,6 @@ class SpellChecking(loader.Module):
             except YouBlockedUserError:
                 return await utils.answer(message, self.strings("unbl_bot"))
 
-        await msg.delete()
         await self._client.send_message(message.peer_id, send.message)
+        await msg.delete()
         await self.client.delete_dialog(chat)
