@@ -30,36 +30,30 @@ from telethon.tl.functions.channels import JoinChannelRequest
 
 
 @loader.tds
-class DelBots(loader.Module):
+class BotsDeleterMod(loader.Module):
     """Instant stop or removal of all running Telegram bots"""
 
     strings = {
-        "name": "DelBots",
-        "author": "shitmodules",
-        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Starting to stop bots...</b>",
-        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove bots...</b>",
-        "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully stopped</b>",
-        "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>", 
+      "name": "BotsDeleter",
+      "author": "shitmodules",
+      "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Starting to stop bots...</b>",
+      "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove bots...</b>",
+      "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully stopped</b>",
+      "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>", 
     }
-    
-    strings_ru = {
-        "name": "DelBots",
-        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Начинаем останавливать ботов...</b>",
-        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>Я начинаю удалять ботов...</b>",
-        "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты успешно остановлены</b>",
-        "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно удалены</b>"
-    }
-    
+
+
     async def client_ready(self, client, db):
         self.db = db
         self.client = client
-        post = (await client.get_messages(self.strings("author"), ids=39))
-        await post.react("❤️")
+        shit = (await client.get_messages(self.strings("author"), ids=47))
+        await shit.react("❤️")
+
         await client(JoinChannelRequest(channel=self.strings("author")))
 
 
     @loader.command(ru_doc="> Чтобы остановить работу всех ботов")
-    async def stopbotscmd(self, message: Message):
+    async def stopallbotscmd(self, message: Message):
         """> To stop all bots from working"""
 
         await utils.answer(message, self.strings("processing"))
@@ -68,17 +62,16 @@ class DelBots(loader.Module):
         k = ""
 
         async for dialog in self.client.iter_dialogs():
-            if hasattr(dialog.entity, 'bot'):
+            if hasattr(dialog.entity, "bot"):
                 if dialog.entity.bot == True:
                     k += "@" + dialog.entity.username + "has ID" + str(dialog.id) + "\n"
                     result = await self.client(functions.contacts.BlockRequest(id=dialog.id))
-
-
-        return await message.edit(t)
+                    
+        return await utils.answer(message, f"{t}")
 
 
     @loader.command(ru_doc="> Чтобы удалить диалоги со всеми ботами")
-    async def delbotscmd(self, message: Message):
+    async def delallbotscmd(self, message: Message):
         """> To delete dialogs with all bots"""
 
         await utils.answer(message, self.strings("assist"))
@@ -87,9 +80,9 @@ class DelBots(loader.Module):
         k = ""
 
         async for dialog in self.client.iter_dialogs():
-            if hasattr(dialog.entity, 'bot'):
+            if hasattr(dialog.entity, "bot"):
                 if dialog.entity.bot == True:
                     k += "@" + dialog.entity.username + "has ID" + str(dialog.id) + "\n"
                     await dialog.delete()
 
-        return await message.edit(t)
+        return await utils.answer(message, f"{t}")
