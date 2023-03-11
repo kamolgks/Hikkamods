@@ -1,10 +1,10 @@
 MultiSaver
-anecdote
+AnecdoteGenerator
 GachiMemesGallery
 HighlyPaidProfessions
 GameForAndroid
 SpellChecking
 IndividualLinks
 AnonUploader
-DelBots
 UsernameChecker
+BotsDeleter
