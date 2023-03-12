@@ -7,4 +7,3 @@ SpellChecking
 IndividualLinks
 AnonUploader
 UsernameChecker
-BotsDeleter
