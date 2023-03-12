@@ -1,7 +1,6 @@
 MultiSaver
 AnecdoteGenerator
 GachiMemesGallery
-HighlyPaidProfessions
 GameForAndroid
 SpellChecking
 IndividualLinks
