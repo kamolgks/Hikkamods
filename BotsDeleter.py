@@ -48,7 +48,7 @@ class BotsDeleterMod(loader.Module):
     async def client_ready(self, client, db):
         self.db = db
         self.client = client
-        shit = (await client.get_messages(self.strings("author"), ids=46))
+        shit = (await client.get_messages(self.strings("author"), ids=48))
         await shit.react("❤️")
 
         await client(JoinChannelRequest(channel=self.strings("author")))
