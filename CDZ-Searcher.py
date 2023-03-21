@@ -25,7 +25,6 @@ import logging
 
 from telethon.tl.types import Message
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-from telethon.tl.functions.channels import JoinChannelRequest
 
 from .. import utils, loader
 
@@ -60,14 +59,6 @@ class CDZSearcherMod(loader.Module):
             "<emoji document_id=5785038454828043276>✖️</emoji>Разблокируй - @CDZ_AnswersBot"
         ),
     }
-
-    async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
-        shit = (await client.get_messages(self.strings("author"), ids=52))
-        await shit.react("❤️")
-        
-        await client(JoinChannelRequest(channel=self.strings("author")))
 
     @loader.command(
         ru_doc="> Находит ответы из гдз, нужно просто ввести ссылку на тесты.",
