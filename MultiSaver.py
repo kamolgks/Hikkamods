@@ -26,13 +26,10 @@ import asyncio
 from telethon.tl.types import Message
 from asyncio.exceptions import TimeoutError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-from telethon.tl.functions.channels import JoinChannelRequest
 
 from .. import utils, loader
 
-
 logger = logging.getLogger(__name__)
-
 
 @loader.tds
 class MultiSaver(loader.Module):
@@ -96,15 +93,6 @@ class MultiSaver(loader.Module):
             "<b>Kutish vaqti tugadi, yoki video juda uzun yoki bot og'ir yuklangan. Sabr qiling!</b>"
         ),
     }
-
-
-    async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
-        post = (await client.get_messages(self.strings("author"), ids=10))
-        await post.react("❤️")
-
-        await client(JoinChannelRequest(channel=self.strings("author")))
 
 
     @loader.command(
