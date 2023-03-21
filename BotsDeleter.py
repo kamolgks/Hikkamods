@@ -23,7 +23,6 @@ from .. import loader, utils
 
 from telethon import functions
 from telethon.tl.types import Message
-from telethon.tl.functions.channels import JoinChannelRequest
 
 @loader.tds
 class BotsDeleterMod(loader.Module):
@@ -44,16 +43,8 @@ class BotsDeleterMod(loader.Module):
         "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно остановлены</b>",
         "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно удалены</b>",
     }
-
-    async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
-        shit = (await client.get_messages(self.strings("author"), ids=48))
-        await shit.react("❤️")
-
-        await client(JoinChannelRequest(channel=self.strings("author")))
         
-        # КТО ПРОЧИТАЕТ ЭТО ТОТ - ЛОХ
+    # КТО ПРОЧИТАЕТ ТОТ - ЛОХ
 
     @loader.command(ru_doc="> Чтобы остановить работу всех ботов")
     async def stopallbotscmd(self, message: Message):
