@@ -23,13 +23,10 @@ import logging
 
 from telethon import functions
 from telethon.tl.types import Message # type: ignore
-from telethon.tl.functions.channels import JoinChannelRequest
 
 from .. import loader, utils
 
-
 logger = logging.getLogger(__name__)
-
 
 @loader.tds
 class UsernameCheckerMod(loader.Module):
@@ -66,15 +63,6 @@ class UsernameCheckerMod(loader.Module):
       "<emoji document_id=5854973145315806460>👮‍♂️</emoji><i><b>Юзер уже занят другим пользователем, придумайте себе новый.</b></i>"
     ),
   }
-
-  async def client_ready(self, client, db):
-    self.db = db
-    self.client = client
-    shit = (await client.get_messages(self.strings("author"), ids=46))
-    await shit.react("❤️")
-
-    await client(JoinChannelRequest(channel=self.strings("author")))
-  
 
   @loader.command(ru_doc="> Введите юзер для проверки.")
   async def ucheckcmd(self, message: Message):
