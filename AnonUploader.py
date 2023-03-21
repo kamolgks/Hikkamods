@@ -42,17 +42,11 @@ class AnonUploader(loader.Module):
         "name": "AnonUploader",
         "noargs": "<i><b>🚫 File not specified {try to find replay photo}</i></b>",
         "err": "🚫 <i><b>Error uploading</i></b>",
-        "unblock_bot": "<emoji document_id=5467928559664242360>❗️</emoji><i><b>@anonfiles_com_bot unblock this bot</i></b>",
+        "unlock_bot": "<emoji document_id=5467928559664242360>❗️</emoji><i><b>@anonfiles_com_bot unblock this bot</i></b>",
         "not_an_image": "🚫 <i><b>This platform only supports images</i></b>",
         "uploading": "<emoji document_id=5213452215527677338>⏳</emoji><I><b>Uploading...</i></b>",
         "reply_pls": "<emoji document_id=5467928559664242360>❗️</emoji><i><b>Reply to photo</i></b>",
     }
-    
-    async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
-        post = (await client.get_messages("shitmodules", ids=33))
-        await post.react("❤️")
 
     async def get_media(self, message: Message):
         reply = await message.get_reply_message()
