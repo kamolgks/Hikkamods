@@ -7,3 +7,4 @@ IndividualLinks
 AnonUploader
 UsernameChecker
 BotsDeleter
+CDZ-Searcher
