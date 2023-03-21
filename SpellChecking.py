@@ -23,14 +23,11 @@ __version__ = (0, 0, 2)
 import logging
 
 from telethon.tl.types import Message
-from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from .. import loader, utils
 
-
 logger = logging.getLogger(__name__)
-
 
 @loader.tds
 class SpellChecking(loader.Module):
@@ -85,16 +82,6 @@ class SpellChecking(loader.Module):
             "<emoji document_id=5215557810359639942>⚠️</emoji>@Engy_Orthography_Bot ботының бұғатын алу"
         ),
     }
-
-
-    async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
-        post = (await client.get_messages(self.strings("author"), ids=29))
-        await post.react("❤️")
-
-        await client(JoinChannelRequest(channel=self.strings("author")))
-
 
     @loader.command(
         ru_doc="> Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
