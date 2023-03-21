@@ -24,7 +24,6 @@ import logging
 
 from .. import loader, utils
 from telethon.tl.types import Message
-from telethon.tl.functions.channels import JoinChannelRequest
 
 logger = logging.getLogger(__name__)
 
@@ -101,13 +100,6 @@ class IndividualLinksMod(loader.Module):
       "https://t.me/+ibZzteZEQ_gwYjIy\n"
     )
   }
-
-  async def client_ready(self, client, db):
-    self.db = db
-    self.client = client
-    post = (await client.get_messages("shitmodules", ids=32))
-    await post.react("❤️")
-    await client(JoinChannelRequest(channel=self.strings("author")))
 
   @loader.command(ru_doc="Ссылки на те самые сурсы", only_pm=True)
   async def chnlcmd(self, message: Message):
