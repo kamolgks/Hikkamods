@@ -34,13 +34,6 @@ class AnecdoteGenerator(loader.Module):
         "author": "shitmodules",
     }
 
-    async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
-        post = (await client.get_messages("shitmodules", ids=14))
-        await post.react("❤️")
-        await client(JoinChannelRequest(channel=self.strings("author")))
-
     async def client_ready(self):
         self.messages = await self.client.get_messages(chat, limit=None)
 
