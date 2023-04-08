@@ -1,28 +1,41 @@
 __version__ = (0, 0, 1)
-#   ___    _         _                             _         _                
-#  (  _`\ ( )     _ ( )_                          ( )       (_ )              
-#  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
-#  `\__ \ |  _ `\| || |     /' _ ` _ `\ /'_`\  /'_` |( ) ( ) | |  /'__`\/',__)
-#  ( )_) || | | || || |_    | ( ) ( ) |( (_) )( (_| || (_) | | | (  ___/\__, \
-#  `\____)(_) (_)(_)`\__)   (_) (_) (_)`\___/'`\__,_)`\___/'(___)`\____)(____/
-#
-#              © Copyright 2023
-#
-#          https://t.me/shitmodules
-#
-# 🔒 Licensed under the GNU GPLv3
-# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+# *
+# *              $$\       $$\   $$\                                   $$\           $$\
+# *              $$ |      \__|  $$ |                                  $$ |          $$ |
+# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\
+# *    $$  _____|$$  __$$\ $$ |\_$$  _|  $$  _$$  _$$\ $$  __$$\ $$  __$$ |$$ |  $$ |$$ |$$  __$$\ $$  _____|
+# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\
+# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\
+# *    $$$$$$$  |$$ |  $$ |$$ |  \$$$$  |$$ | $$ | $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |$$ |\$$$$$$$\ $$$$$$$  |
+# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
+# *
+# *
+# *            © Copyright 2023
+# *
+# *         https://t.me/shitmodules
+# *
+# 🔒 Code is licensed under CC-BY-NC-ND 4.0 unless otherwise specified.
+# 🌐 https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+# You CANNOT edit this file without direct permission from the author.
+# You can redistribute this file without any changes.
 
 # scope: hikka_only
-# scope: hikka_min 1.6.0
+# scope: hikka_min 1.6.2
 
-# meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/DelBots.png
+# meta pic: https://github.com/kamolgks/assets/raw/main/BotsDeleter.png
+# meta banner:
+
 # meta developer: @shitmodules
 
+import logging
 from .. import loader, utils
 
 from telethon import functions
-from telethon.tl.types import Message
+from hikkatl.types import Message
+
+logger = logging.getLogger(__name__)
+
 
 @loader.tds
 class BotsDeleterMod(loader.Module):
@@ -30,11 +43,10 @@ class BotsDeleterMod(loader.Module):
 
     strings = {
         "name": "BotsDeleter",
-        "author": "shitmodules",
         "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Starting to stop bots...</b>",
         "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove bots...</b>",
         "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully stopped</b>",
-        "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>", 
+        "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>",
     }
 
     strings_ru = {
@@ -43,7 +55,7 @@ class BotsDeleterMod(loader.Module):
         "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно остановлены</b>",
         "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно удалены</b>",
     }
-        
+
     # КТО ПРОЧИТАЕТ ТОТ - ЛОХ
 
     @loader.command(ru_doc="> Чтобы остановить работу всех ботов")
@@ -55,9 +67,10 @@ class BotsDeleterMod(loader.Module):
         async for dialog in self.client.iter_dialogs():
             if hasattr(dialog.entity, "bot"):
                 if dialog.entity.bot == True:
-                    k += "@" + dialog.entity.username + "has ID" + str(dialog.id) + "\n"
+                    k += "@" + dialog.entity.username + \
+                        "has ID" + str(dialog.id) + "\n"
                     await self.client(functions.contacts.BlockRequest(id=dialog.id))
-                    
+
         await msg.edit(f"{t}")
 
     @loader.command(ru_doc="> Чтобы удалить диалоги со всеми ботами")
@@ -69,7 +82,8 @@ class BotsDeleterMod(loader.Module):
         async for dialog in self.client.iter_dialogs():
             if hasattr(dialog.entity, "bot"):
                 if dialog.entity.bot == True:
-                    k += "@" + dialog.entity.username + "has ID" + str(dialog.id) + "\n"
+                    k += "@" + dialog.entity.username + \
+                        "has ID" + str(dialog.id) + "\n"
                     await dialog.delete()
 
         await msg.edit(f"{t}")
