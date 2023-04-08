@@ -1,28 +1,38 @@
-__version__ = (0, 0, 2)
-#   ___    _         _                             _         _                
-#  (  _`\ ( )     _ ( )_                          ( )       (_ )              
-#  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
-#  `\__ \ |  _ `\| || |     /' _ ` _ `\ /'_`\  /'_` |( ) ( ) | |  /'__`\/',__)
-#  ( )_) || | | || || |_    | ( ) ( ) |( (_) )( (_| || (_) | | | (  ___/\__, \
-#  `\____)(_) (_)(_)`\__)   (_) (_) (_)`\___/'`\__,_)`\___/'(___)`\____)(____/
-#                
-#              © Copyright 2023
-#
-#          https://t.me/shitmodules
-#
-# 🔒 Licensed under the GNU GPLv3
-# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+__version__ = (0, 0, 3)
+
+# *
+# *              $$\       $$\   $$\                                   $$\           $$\
+# *              $$ |      \__|  $$ |                                  $$ |          $$ |
+# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\
+# *    $$  _____|$$  __$$\ $$ |\_$$  _|  $$  _$$  _$$\ $$  __$$\ $$  __$$ |$$ |  $$ |$$ |$$  __$$\ $$  _____|
+# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\
+# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\
+# *    $$$$$$$  |$$ |  $$ |$$ |  \$$$$  |$$ | $$ | $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |$$ |\$$$$$$$\ $$$$$$$  |
+# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
+# *
+# *
+# *            © Copyright 2023
+# *
+# *         https://t.me/shitmodules
+# *
+# 🔒 Code is licensed under CC-BY-NC-ND 4.0 unless otherwise specified.
+# 🌐 https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+# You CANNOT edit this file without direct permission from the author.
+# You can redistribute this file without any changes.
 
 # scope: hikka_only
-# scope: hikka_min 1.6.0
+# scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/SpellChecking.png
-# meta banner: https://te.legra.ph/file/fae1a26e0e47d369385e2.mp4
+# meta banner: https://te.legra.ph/file/9d6a1fbe488c1ba111ade.mp4
+
 # meta developer: @shitmodules
 
 import logging
 
-from telethon.tl.types import Message
+from hikkatl.types import Message
+from asyncio.exceptions import TimeoutError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from .. import loader, utils
@@ -30,70 +40,86 @@ from .. import loader, utils
 logger = logging.getLogger(__name__)
 
 @loader.tds
-class SpellChecking(loader.Module):
+class SpellCheckingMod(loader.Module):
     """Check text for spelling errors by @shitmodules"""
 
     strings = {
         "name": "SpellChecking",
-        "author": "shitmodules",
         "processing": (
-            "<emoji document_id=5787344001862471785>✍️</emoji><i><b>Loading...</b></i>"
+            "<emoji document_id=5787344001862471785>✍️</emoji><b>Loading...</b>"
         ),
         "no_args": (
-            "<emoji document_id=5215552806722738551>👎</emoji><i><b>There are no arguments or they are not enough!</b></i>"
+            "<emoji document_id=5215552806722738551>👎</emoji><b>There are no arguments or they are not enough!</b>"
         ),
-        "unbl_bot" :(
-            "<emoji document_id=5215557810359639942>⚠️</emoji>Unblock @Engy_Orthography_Bot bot"
+        "unl_bot" :(
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Unlock @Engy_Orthography_Bot"
+        ),
+        "time_err": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji><b>The waiting time has expired.</b> "
+            "<b>Either the bot is loaded, or it's dead. Try again a little later</b>"
         ),
     }
     
     strings_ru = {
         "processing": (
-            "<emoji document_id=5787344001862471785>✍️</emoji><i><b>Загрузка...</b></i>"
+            "<emoji document_id=5787344001862471785>✍️</emoji><b>Загрузка...</b>"
         ),
         "no_args": (
-            "<emoji document_id=5215552806722738551>👎</emoji><i><b>Нету аргументов или их недостаточно!</b></i>"
+            "<emoji document_id=5215552806722738551>👎</emoji><b>Нету аргументов или их недостаточно!</b>"
         ),
-        "unbl_bot": (
-            "<emoji document_id=5215557810359639942>⚠️</emoji>Разблокируй @Engy_Orthography_Bot бота"
+        "unl_bot": (
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Разблокируй @SpellCheckBot"
+        ),
+        "time_err": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Истекло время ожидания.</b> "
+            "<b>Либо бот нагружен, либо он умер. Попробуйте немного позже.</b>"
         ),
     }
 
     strings_uz = {
-        "ishlov berish": (
-            "<emoji document_id=5787344001862471785>✍️</emoji><i><b>yuklanmoqda...</b></i>"
+        "processing": (
+            "<emoji document_id=5787344001862471785>✍️</emoji><b>yuklanmoqda...</b>"
         ),
         "no_args": (
-            "<emoji document_id=5215552806722738551>👎</emoji><i><b>argumentlar yo'q yoki ular etarli emas!</b></i>"
+            "<emoji document_id=5215552806722738551>👎</emoji><b>argumentlar yo'q yoki ular etarli emas!</b>"
         ),
-        "unbl_bot" :(
-            "<emoji document_id=5215557810359639942>⚠️</emoji>Engy_Orthography_Bot botini blokdan chiqarish"
+        "unl_bot" :(
+            "<emoji document_id=5215557810359639942>⚠️</emoji>@SpellCheckBot botini blokdan chiqarish"
+        ),
+        "time_err": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji>Kutish vaqti tugadi.</b> "
+            "<b>Yoki bot Yuklangan yoki u vafot etgan. Birozdan keyin sinab ko'ring."
         ),
     }
 
     strings_kk = {
         "processing": (
-            "<emoji document_id=5787344001862471785>>️</emoji><i><b > жүктеу...</b></i>"
+            "<emoji document_id=5787344001862471785>>️</emoji><b > жүктеу...</b>"
         ),
         "no_args": (
-            "<emoji document_id=5215552806722738551 >👎</emoji><i><b>дәлелдер жоқ немесе жеткіліксіз!</b></i>"
+            "<emoji document_id=5215552806722738551 >👎</emoji><b>дәлелдер жоқ немесе жеткіліксіз!</b>"
         ),
-        "unbl_bot": (
-            "<emoji document_id=5215557810359639942>⚠️</emoji>@Engy_Orthography_Bot ботының бұғатын алу"
+        "unl_bot": (
+            "<emoji document_id=5215557810359639942>⚠️</emoji>@SpellCheckBot ботының бұғатын алу"
+        ),
+        "time_err": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Күту уақыты аяқталды.</b> "
+            "<b>Не бот жүктелген, не ол қайтыс болды. Сәл кейінірек көріңіз.</b>"
         ),
     }
 
     @loader.command(
-        ru_doc="> Проверяет текст на орфографические ошибки. (Количество аргументов не менее двух!)",
-        kk_doc="> Мәтінді емле қателеріне тексереді. (Аргументтер саны екіден кем емес!)",
-        uz_doc="> Matnni imlo xatolarini tekshiradi. (Argumentlar soni kamida ikkitasi!)",
+        ru_doc="> Проверяет текст на орфографические ошибки.",
+        kk_doc="> Мәтінді емле қателеріне тексереді.",
+        uz_doc="> Matnni imlo xatolarini tekshiradi.",
     )
     async def orfgcmd(self, message: Message):
-        """> Suggestion for checking spelling errors [args > 2]"""
-        chat = "Engy_Orthography_Bot"
+        """> Suggestion for checking spelling errors"""
+        chat = "@SpellCheckBot"
         args = utils.get_args_raw(message)
         if len(args) < 2:
-            return await utils.answer(message, self.strings("no_args"))
+            await utils.answer(message, self.strings("no_args"))
+            return
 
         msg = await utils.answer(message, self.strings("processing"))
 
@@ -103,8 +129,17 @@ class SpellChecking(loader.Module):
                 bot += [await conv.send_message(args)]
                 send = await conv.get_response()
             except YouBlockedUserError:
-                return await utils.answer(message, self.strings("unbl_bot"))
+                await utils.answer(message, self.strings("unl_bot"))
+                return
+            except TimeoutError:
+                await utils.answer(message, self.strings("time_err"))
+                return
 
-        await self._client.send_message(message.peer_id, send.message)
-        await msg.delete()
-        await self.client.delete_dialog(chat)
+            await msg.delete()
+            await self._client.send_message(
+                message.peer_id, 
+                send.text,
+                reply_to=message.reply_to_msg_id,
+            )
+
+            await self.client.delete_dialog(chat)
