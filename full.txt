@@ -1,6 +1,6 @@
 MultiSaver
 AnecdoteGenerator
-GachiMemesGallery
+GachiGallery
 GamesForAndroid
 SpellChecking
 IndividualLinks
