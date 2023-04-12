@@ -1,23 +1,31 @@
-__version__ = (0, 0, 8)
-#   ___    _         _                             _         _                
-#  (  _`\ ( )     _ ( )_                          ( )       (_ )              
-#  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
-#  `\__ \ |  _ `\| || |     /' _ ` _ `\ /'_`\  /'_` |( ) ( ) | |  /'__`\/',__)
-#  ( )_) || | | || || |_    | ( ) ( ) |( (_) )( (_| || (_) | | | (  ___/\__, \
-#  `\____)(_) (_)(_)`\__)   (_) (_) (_)`\___/'`\__,_)`\___/'(___)`\____)(____/
-#                
-#              © Copyright 2022/2023
-#
-#          https://t.me/shitmodules
-#
-# 🔒 Licensed under the GNU GPLv3
-# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+__version__ = (0, 0, 9)
+# *
+# *              $$\       $$\   $$\                                   $$\           $$\
+# *              $$ |      \__|  $$ |                                  $$ |          $$ |
+# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\
+# *    $$  _____|$$  __$$\ $$ |\_$$  _|  $$  _$$  _$$\ $$  __$$\ $$  __$$ |$$ |  $$ |$$ |$$  __$$\ $$  _____|
+# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\
+# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\
+# *    $$$$$$$  |$$ |  $$ |$$ |  \$$$$  |$$ | $$ | $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |$$ |\$$$$$$$\ $$$$$$$  |
+# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
+# *
+# *
+# *            © Copyright 2023
+# *
+# *         https://t.me/shitmodules
+# *
+# 🔒 Code is licensed under CC-BY-NC-ND 4.0 unless otherwise specified.
+# 🌐 https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+# You CANNOT edit this file without direct permission from the author.
+# You can redistribute this file without any changes.
 
 # scope: hikka_only
-# scope: hikka_min 1.6.0
+# scope: hikka_min 1.6.2
 
-# meta pic: 
-# meta banner: 
+# meta pic: https://te.legra.ph/file/9fbbf3676de7a1e844e56.jpg
+# meta banner: https://te.legra.ph/file/d66986f60754bb0d4651d.mp4
+
 # meta developer: @shitmodules
 
 import logging
@@ -27,30 +35,29 @@ from telethon.tl.types import Message
 from asyncio.exceptions import TimeoutError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
-from .. import utils, loader
+from .. import loader, utils
 
 logger = logging.getLogger(__name__)
 
 @loader.tds
-class MultiSaver(loader.Module):
+class MultiSaverMod(loader.Module):
     """Download video, photo from instagram, TikTok and Pinterest"""
 
     strings = {
         "name": "MultiSaver",
-        "author": "shitmodules",
         "processing": (
-            "<emoji document_id=5346152548761868765>💜</emoji><b>Processing...</b>"
+            "<emoji document_id=5190568934717270805>🙂</emoji><b>Processing...</b>"
         ),
         "successfully": (
-            "<emoji document_id=5472104053854968558>❤</emoji><b>Successfuly downloaded<</b>"
+            "<emoji document_id=5379619324774326601>😏</emoji><b>Successfuly downloaded</b>"
         ),
-        "where_link": (
-            "<emoji document_id=5215552806722738551>👎</emoji><b>Where is the link?</b>"
+        "where-link": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Where is the link?</b>"
         ),
-        "unblock_bot" :(
-            "<emoji document_id=5215557810359639942>⚠️</emoji><b>Unblock @saveasbot bot</b>"
+        "unl-bot": (
+            "<emoji document_id=5215557810359639942>⚠️</emoji><b>Unlock @saveasbot bot</b>"
         ),
-        "time_err": (
+        "time-err": (
             "<emoji document_id=5269492338920528466>😱</emoji>"
             "<b>The waiting time has expired, either the video is too long, or the bot is heavily loaded. Be patient!</b>"
         ),
@@ -58,18 +65,18 @@ class MultiSaver(loader.Module):
 
     strings_ru = {
         "processing": (
-            "<emoji document_id=5346152548761868765>💜</emoji><b>Загрузка...</b>"
+            "<emoji document_id=5190568934717270805>🙂</emoji><b>Загрузка...</b>"
         ),
         "successfully": (
-            "<emoji document_id=5472104053854968558>❤</emoji><b>Успешно загружено</b>"
+            "<emoji document_id=5379619324774326601>😏</emoji><b>Успешно загружено</b>"
         ),
-        "where_link": (
-            "<emoji document_id=5215552806722738551>👎</emoji><b>А где ссылка?</b>"
+        "where-link": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji><b>А где ссылка?</b>"
         ),
-        "unblock_bot": (
+        "unl-bot": (
             "<emoji document_id=5215557810359639942>⚠️</emoji><b>Разблокируй @saveasbot бота</b>"
         ),
-        "time_err": (
+        "time-err": (
             "<emoji document_id=5269492338920528466>😱</emoji>"
             "<b>Истекло время ожидания, либо видос слишком длинный, либо бот сильно нагружен. Наберись терпения!</b>"
         ),
@@ -77,52 +84,82 @@ class MultiSaver(loader.Module):
 
     strings_uz = {
         "processing": (
-            "<emoji document_id=5346152548761868765>💜</emoji><b>Yuklanmoqda...</b>"
+            "<emoji document_id=5190568934717270805>🙂</emoji><b>Yuklanmoqda...</b>"
         ),
         "successfully": (
-            "<emoji document_id=5472104053854968558>❤</emoji><b>Muvaffaqiyatli yuklab olindi.</b>"
+            "<emoji document_id=5379619324774326601>😏</emoji><b>Muvaffaqiyatli yuklab olindi.</b>"
         ),
-        "where_link": (
-            "<emoji document_id=5215552806722738551>👎</emoji><b>Havola qani?</b>"
+        "where-link": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Havola qani?</b>"
         ),
-        "unblock_bot" :(
+        "unl-bot": (
             "<emoji document_id=5215557810359639942>⚠️</emoji><b>@saveasbot botini blokdan chiqarish</b>"
         ),
-        "time_err": (
+        "time-err": (
             "<emoji document_id=5269492338920528466>😱</emoji>"
             "<b>Kutish vaqti tugadi, yoki video juda uzun yoki bot og'ir yuklangan. Sabr qiling!</b>"
         ),
     }
 
+    strings_tr = {
+        "processing": (
+            "<emoji document_id=5190568934717270805>🙂</emoji><b>İşleme...</b>"
+        ),
+        "successfully": (
+            "<emoji document_id=5379619324774326601>😏</emoji><b>Başarıyla indirildi</b>"
+        ),
+        "where-link": (
+            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Bağlantı nerede?</b>"
+        ),
+        "unl-bot": (
+            "<emoji document_id=5215557810359639942>⚠️</emoji><b>@saveasbot botunun kilidini aç</b>"
+        ),
+        "time-err": (
+            "<emoji document_id=5269492338920528466>😱</emoji>"
+            "<b>Bekleme süresi doldu, ya video çok uzun ya da bot çok yüklü. Sabırlı ol!</b>"
+        ),
+    }
 
+    @loader.group_member
     @loader.command(
         ru_doc="> Скачать фото/видео из инстаграм, Тик ток и Пинтереста",
         uz_doc="> Foto/videoni instagram, tik tok va pinterestdan yuklab oling",
+        tr_doc="> İnstagram, Tick Tok ve Pinterest'ten fotoğraf /video indirin",
     )
     async def imtcmd(self, message: Message):
         """> photo/video link"""
-        chat = "saveasbot"
+
+        chat = "@SaveAsBot"
         url = utils.get_args_raw(message)
+        
         if not url:
-            return await utils.answer(message, self.strings("where_link", message))
+            await utils.answer(message, self.strings("where-link"))
+            return
 
         msg = await utils.answer(message, self.strings("processing"))
-
+        
         async with self._client.conversation(chat) as conv:
             try:
                 bot = []
                 bot += [await conv.send_message(url)]
-                send = await conv.get_response()
+                response = await conv.get_response()
             except YouBlockedUserError:
-                return await utils.answer(message, self.strings("unblock_bot"))
+                await utils.answer(message, self.strings("unl-bot"))
+                return
 
-        await self._client.send_file(
-            message.peer_id,
-            send.media,
-            caption=self.strings("successfully"),
-            reply_to=message.reply_to_msg_id,
-        )
+            except TimeoutError:
+                await utils.answer(message, self.strings("time-err"))
+                return
+
+            if response.media:
+                await self._client.send_file(
+                    message.to_id,
+                    response.media,
+                    caption=self.strings("successfully"),
+                    reply_to=message.reply_to_msg_id,
+                )
 
         await msg.delete()
         await asyncio.sleep(1)
+
         await self.client.delete_dialog(chat)
