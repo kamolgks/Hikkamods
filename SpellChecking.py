@@ -52,7 +52,7 @@ class SpellCheckingMod(loader.Module):
             "<emoji document_id=5215552806722738551>👎</emoji><b>There are no arguments or they are not enough!</b>"
         ),
         "unl_bot" :(
-            "<emoji document_id=5215557810359639942>⚠️</emoji>Unlock @Engy_Orthography_Bot"
+            "<emoji document_id=5215557810359639942>⚠️</emoji>Unlock @SpellCheckBot"
         ),
         "time_err": (
             "<emoji document_id=5280821895711697516>⛔️</emoji><b>The waiting time has expired.</b> "
@@ -115,8 +115,10 @@ class SpellCheckingMod(loader.Module):
     )
     async def orfgcmd(self, message: Message):
         """> Suggestion for checking spelling errors"""
+        
         chat = "@SpellCheckBot"
         args = utils.get_args_raw(message)
+        
         if len(args) < 2:
             await utils.answer(message, self.strings("no_args"))
             return
@@ -127,19 +129,22 @@ class SpellCheckingMod(loader.Module):
             try:
                 bot = []
                 bot += [await conv.send_message(args)]
-                send = await conv.get_response()
+                bot += [await conv.get_response()]
+                response = await conv.get_response()
             except YouBlockedUserError:
                 await utils.answer(message, self.strings("unl_bot"))
                 return
+            
             except TimeoutError:
                 await utils.answer(message, self.strings("time_err"))
                 return
-
+            
+            if response.text:
+                await self._client.send_message(
+                    message.to_id, 
+                    response.text,
+                    reply_to=message.reply_to_msg_id,
+                )
+            
             await msg.delete()
-            await self._client.send_message(
-                message.peer_id, 
-                send.text,
-                reply_to=message.reply_to_msg_id,
-            )
-
             await self.client.delete_dialog(chat)
