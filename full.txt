@@ -1,10 +1,11 @@
 MultiSaver
 AnecdoteGenerator
 GachiMemesGallery
-GameForAndroid
+GamesForAndroid
 SpellChecking
 IndividualLinks
 AnonUploader
 UsernameChecker
 BotsDeleter
 CDZ-Searcher
+RandomChats
