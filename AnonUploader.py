@@ -1,51 +1,60 @@
 __version__ = (0, 0, 1)
-#   ___    _         _                             _         _                
-#  (  _`\ ( )     _ ( )_                          ( )       (_ )              
-#  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
-#  `\__ \ |  _ `\| || |     /' _ ` _ `\ /'_`\  /'_` |( ) ( ) | |  /'__`\/',__)
-#  ( )_) || | | || || |_    | ( ) ( ) |( (_) )( (_| || (_) | | | (  ___/\__, \
-#  `\____)(_) (_)(_)`\__)   (_) (_) (_)`\___/'`\__,_)`\___/'(___)`\____)(____/
-#
-#     █ █ ▀ █▄▀ ▄▀█ █▀█ ▀
-#     █▀█ █ █ █ █▀█ █▀▄ █
-#
-#      https://t.me/shitmodules | https://t.me/hikariatama
-#
-# 🔒 Licensed under the GNU GPLv3
-# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+# *
+# *              $$\       $$\   $$\                                   $$\           $$\
+# *              $$ |      \__|  $$ |                                  $$ |          $$ |
+# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\
+# *    $$  _____|$$  __$$\ $$ |\_$$  _|  $$  _$$  _$$\ $$  __$$\ $$  __$$ |$$ |  $$ |$$ |$$  __$$\ $$  _____|
+# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\
+# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\
+# *    $$$$$$$  |$$ |  $$ |$$ |  \$$$$  |$$ | $$ | $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |$$ |\$$$$$$$\ $$$$$$$  |
+# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
+# *
+# *
+# *            © Copyright 2022/2023
+# *
+# *         https://t.me/shitmodules
+# *
+# 🔒 Code is licensed under CC-BY-NC-ND 4.0 unless otherwise specified.
+# 🌐 https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+# You CANNOT edit this file without direct permission from the author.
+# You can redistribute this file without any changes.
 
 # scope: hikka_only
-# scope: hikka_min 1.6.0
+# scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/AnonUploader.jpg
 # meta banner: https://te.legra.ph/file/bd8f3c2ab680d49df918b.mp4
+
 # meta developer: @shitmodules
 
-import imghdr
+import re
 import io
 import random
-import re
-import logging 
-
+import logging
 import requests
-from telethon.errors.rpcerrorlist import YouBlockedUserError
+
 from telethon.tl.types import Message
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 from .. import loader, utils
 
 logger = logging.getLogger(__name__)
 
 @loader.tds
-class AnonUploader(loader.Module):
-    """Anonymous file upload anonfiles.com"""
+class AnonymUploaderMod(loader.Module):
+    """Anonymous files upload via anonfiles.com"""
 
     strings = {
-        "name": "AnonUploader",
-        "noargs": "<i><b>🚫 File not specified {try to find replay photo}</i></b>",
-        "err": "🚫 <i><b>Error uploading</i></b>",
-        "unlock_bot": "<emoji document_id=5467928559664242360>❗️</emoji><i><b>@anonfiles_com_bot unblock this bot</i></b>",
-        "not_an_image": "🚫 <i><b>This platform only supports images</i></b>",
-        "uploading": "<emoji document_id=5213452215527677338>⏳</emoji><I><b>Uploading...</i></b>",
-        "reply_pls": "<emoji document_id=5467928559664242360>❗️</emoji><i><b>Reply to photo</i></b>",
+        "name": "AnonymUploader",
+        "uploading": "🚀 <b>Uploading...</b>",
+        "noargs": "🚫 <b>No file specified</b>",
+        "bot_blocked": "🚫 <b>Unban @anonfiles_com_bot</b>",
+    }
+
+    strings_ru = {
+        "uploading": "🚀 <b>Загрузка...</b>",
+        "noargs": "🚫 <b>Файл не указан</b>",
+        "bot_blocked": "🚫 <b>Разблокируй @anonfiles_com_bot</b>",
     }
 
     async def get_media(self, message: Message):
@@ -79,39 +88,30 @@ class AnonUploader(loader.Module):
 
         return file
 
-    async def get_image(self, message: Message):
-        file = await self.get_media(message)
-        if not file:
-            return False
-
-        if imghdr.what(file) not in ["gif", "png", "jpg", "jpeg", "tiff", "bmp"]:
-            await utils.answer(message, self.strings("not_an_image"))
-            return False
-            
-        return file
-
+    @loader.command()
     async def aimgcmd(self, message: Message):
-        """> .aimg <reply to photo> - Anonymous file Uploader"""
+        """> <reply to file> - Anonymous file Uploader"""
         chat = "@anonfiles_com_bot"
         message = await utils.answer(message, self.strings("uploading"))
-        file = await self.get_image(message)
-        if not file:
-          return
+        file = await self.get_media(message)
 
         async with self._client.conversation(chat) as conv:
             try:
                 m = await conv.send_message(file=file)
                 response = await conv.get_response()
             except YouBlockedUserError:
-                await utils.answer(message, self.strings("unblock_bot"))
+                await utils.answer(message, self.strings("bot_blocked"))
                 return
-            
+
+            await m.delete()
+            await response.delete()
+
             await self.client.delete_dialog(chat)
-            
+
             try:
                 url = (
                     re.search(
-                        r'<meta property="og:image" data-react-helmet="true"'
+                        r'<meta property="og:image" data-react-helmet="true"',
                         r' content="(.*?)"',
                         (await utils.run_sync(requests.get, response.raw_text)).text,
                     )
@@ -120,4 +120,5 @@ class AnonUploader(loader.Module):
                 )
             except Exception:
                 url = response.raw_text
-            await utils.answer(message, f"<i>🪄 Your file uploaded</i>: <code>{url}</code>")
+
+        await utils.answer(message, f"<b>🪄Your file uploaded: <code>{url}</code></b>")
