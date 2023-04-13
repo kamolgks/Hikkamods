@@ -24,7 +24,7 @@ __version__ = (0, 0, 2)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/GameForAndroid.jpg
-# meta banner: https://x0.at/0H0-.gif
+# meta banner: https://te.legra.ph/file/80cbbaf158e12a29f8453.mp4
 
 # meta developer: @shitmodules
 
@@ -35,7 +35,6 @@ from ..inline.types import InlineCall
 import logging
 
 logger = logging.getLogger(__name__)
-
 
 @loader.tds
 class GamesForAndroidMod(loader.Module):
