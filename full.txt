@@ -4,7 +4,7 @@ GachiGallery
 GamesForAndroid
 SpellChecking
 IndividualLinks
-AnonUploader
+AnonymUploader
 UsernameChecker
 BotsDeleter
 CDZ-Searcher
