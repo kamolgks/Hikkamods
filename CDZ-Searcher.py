@@ -1,24 +1,31 @@
 __version__ = (0, 0, 1)
+# *
+# *              $$\       $$\   $$\                                   $$\           $$\
+# *              $$ |      \__|  $$ |                                  $$ |          $$ |
+# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\
+# *    $$  _____|$$  __$$\ $$ |\_$$  _|  $$  _$$  _$$\ $$  __$$\ $$  __$$ |$$ |  $$ |$$ |$$  __$$\ $$  _____|
+# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\
+# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\
+# *    $$$$$$$  |$$ |  $$ |$$ |  \$$$$  |$$ | $$ | $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |$$ |\$$$$$$$\ $$$$$$$  |
+# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
+# *
+# *
+# *            © Copyright 2023
+# *
+# *         https://t.me/shitmodules
+# *
+# 🔒 Code is licensed under CC-BY-NC-ND 4.0 unless otherwise specified.
+# 🌐 https://creativecommons.org/licenses/by-nc-nd/4.0/
 
-#   ___    _         _                             _         _                
-#  (  _`\ ( )     _ ( )_                          ( )       (_ )              
-#  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
-#  `\__ \ |  _ `\| || |     /' _ ` _ `\ /'_`\  /'_` |( ) ( ) | |  /'__`\/',__)
-#  ( )_) || | | || || |_    | ( ) ( ) |( (_) )( (_| || (_) | | | (  ___/\__, \
-#  `\____)(_) (_)(_)`\__)   (_) (_) (_)`\___/'`\__,_)`\___/'(___)`\____)(____/
-#                
-#              © Copyright 2023
-#
-#          https://t.me/shitmodules
-#
-# 🔒 Licensed under the GNU GPLv3
-# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+# You CANNOT edit this file without direct permission from the author.
+# You can redistribute this file without any changes.
 
 # scope: hikka_only
-# scope: hikka_min 1.6.0
+# scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/CDZ-Searcher.jpg
-# meta banner: 
+# meta banner: https://te.legra.ph/file/9ec8265adfa69ca9475b8.mp4
+
 # meta developer: @shitmodules
 
 import logging
@@ -36,7 +43,6 @@ class CDZSearcherMod(loader.Module):
 
     strings = {
         "name": "CDZ-Searcher",
-        "author": "shitmodules",
         "processing": (
             "<emoji document_id=5346152548761868765>💜</emoji><b>Processing...</b>"
         ),
