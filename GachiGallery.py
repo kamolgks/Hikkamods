@@ -23,6 +23,7 @@ __version__ = (0, 0, 1)
 # scope: hikka_only
 # scope: hikka_min 1.6.2
 
+# meta banner: https://te.legra.ph/file/4345877c9916adcde2678.mp4
 # meta developer: @shitmodules
 
 import random
