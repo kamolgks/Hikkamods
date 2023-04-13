@@ -24,7 +24,7 @@ __version__ = (0, 0, 3)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/IndividualLinks.jpg
-# meta banner: https://te.legra.ph/file/a68d6b0715e417b619f78.mp4
+# meta banner: https://te.legra.ph/file/da67828691b6570de6219.jpg
 
 # meta developer: @shitmodules
 
@@ -61,6 +61,7 @@ class IndLinksMod(loader.Module):
       "https://t.me/+t0mw7PpRJks2YTQy\n"
       "https://t.me/+NUwqHxff4DM0NjE9\n"
       "https://t.me/+fKnl-36ghaI2MjRl\n"
+      "https://t.me/+xfNMApu2YpA5YmYy\n"
     ),
     "link-2": (
       "https://t.me/+4Cbqczaexc8xMGJi\n"
