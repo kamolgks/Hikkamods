@@ -89,7 +89,7 @@ class AnonymUploaderMod(loader.Module):
         return file
 
     @loader.command()
-    async def aimgcmd(self, message: Message):
+    async def auplcmd(self, message: Message):
         """> <reply to file> - Anonymous file Uploader"""
         chat = "@anonfiles_com_bot"
         message = await utils.answer(message, self.strings("uploading"))
