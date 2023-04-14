@@ -1,37 +1,43 @@
 __version__ = (0, 0, 1)
-#   ___    _         _                             _         _                
-#  (  _`\ ( )     _ ( )_                          ( )       (_ )              
-#  | (_(_)| |__  (_)| ,_)     ___ ___     _      _| | _   _  | |    __    ___ 
-#  `\__ \ |  _ `\| || |     /' _ ` _ `\ /'_`\  /'_` |( ) ( ) | |  /'__`\/',__)
-#  ( )_) || | | || || |_    | ( ) ( ) |( (_) )( (_| || (_) | | | (  ___/\__, \
-#  `\____)(_) (_)(_)`\__)   (_) (_) (_)`\___/'`\__,_)`\___/'(___)`\____)(____/
-#
-#              © Copyright 2022
-#
-#          https://t.me/shitmodules
-#
-# 🔒 Licensed under the GNU GPLv3
-# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+# *
+# *              $$\       $$\   $$\                                   $$\           $$\
+# *              $$ |      \__|  $$ |                                  $$ |          $$ |
+# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\
+# *    $$  _____|$$  __$$\ $$ |\_$$  _|  $$  _$$  _$$\ $$  __$$\ $$  __$$ |$$ |  $$ |$$ |$$  __$$\ $$  _____|
+# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\
+# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\
+# *    $$$$$$$  |$$ |  $$ |$$ |  \$$$$  |$$ | $$ | $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |$$ |\$$$$$$$\ $$$$$$$  |
+# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
+# *
+# *
+# *            © Copyright 2023
+# *
+# *         https://t.me/shitmodules
+# *
+# 🔒 Code is licensed under CC-BY-NC-ND 4.0 unless otherwise specified.
+# 🌐 https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+# You CANNOT edit this file without direct permission from the author.
+# You can redistribute this file without any changes.
 
 # scope: hikka_only
 # scope: hikka_min 1.5.3
 
-# meta banner: https://x0.at/NqCK.gif
+# meta banner: https://te.legra.ph/file/7c1b2f3c9c6f93b89122c.mp4
 # meta developer: @shitmodules
 
+import random
 from .. import loader, utils
 from telethon.tl.types import Message
-import random
 
 chat = "anertsy"
 
 @loader.tds
-class AnecdoteGenerator(loader.Module):
+class AnecdoteGeneratorMod(loader.Module):
     """Anecdote generator by @shitmodules"""
 
     strings = {
-        "name": "AnecdoteGenerator",
-        "author": "shitmodules",
+        "name": "AnecdoteGenerator",    
     }
 
     async def client_ready(self):
