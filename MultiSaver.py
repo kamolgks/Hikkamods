@@ -1,4 +1,4 @@
-__version__ = (0, 0, 9)
+__version__ = (1, 0, 9)
 # *
 # *              $$\       $$\   $$\                                   $$\           $$\
 # *              $$ |      \__|  $$ |                                  $$ |          $$ |
@@ -24,7 +24,7 @@ __version__ = (0, 0, 9)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://te.legra.ph/file/9fbbf3676de7a1e844e56.jpg
-# meta banner: https://te.legra.ph/file/d66986f60754bb0d4651d.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/multisaver.png
 
 # meta developer: @shitmodules
 
@@ -38,6 +38,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from .. import loader, utils
 
 logger = logging.getLogger(__name__)
+
 
 @loader.tds
 class MultiSaverMod(loader.Module):
@@ -131,13 +132,13 @@ class MultiSaverMod(loader.Module):
 
         chat = "@SaveAsBot"
         url = utils.get_args_raw(message)
-        
+
         if not url:
             await utils.answer(message, self.strings("where-link"))
             return
 
         msg = await utils.answer(message, self.strings("processing"))
-        
+
         async with self._client.conversation(chat) as conv:
             try:
                 bot = []

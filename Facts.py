@@ -1,15 +1,15 @@
 __version__ = (0, 0, 1)
 # *
-# *              $$\       $$\   $$\                                   $$\           $$\                     
-# *              $$ |      \__|  $$ |                                  $$ |          $$ |                    
-# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\ 
+# *              $$\       $$\   $$\                                   $$\           $$\
+# *              $$ |      \__|  $$ |                                  $$ |          $$ |
+# *     $$$$$$$\ $$$$$$$\  $$\ $$$$$$\   $$$$$$\$$$$\   $$$$$$\   $$$$$$$ |$$\   $$\ $$ | $$$$$$\   $$$$$$$\
 # *    $$  _____|$$  __$$\ $$ |\_$$  _|  $$  _$$  _$$\ $$  __$$\ $$  __$$ |$$ |  $$ |$$ |$$  __$$\ $$  _____|
-# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\  
-# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\ 
+# *    \$$$$$$\  $$ |  $$ |$$ |  $$ |    $$ / $$ / $$ |$$ /  $$ |$$ /  $$ |$$ |  $$ |$$ |$$$$$$$$ |\$$$$$$\
+# *     \____$$\ $$ |  $$ |$$ |  $$ |$$\ $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$   ____| \____$$\
 # *    $$$$$$$  |$$ |  $$ |$$ |  \$$$$  |$$ | $$ | $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |$$ |\$$$$$$$\ $$$$$$$  |
-# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/ 
-# *                                                                                                          
-# *                                                                                                          
+# *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
+# *
+# *
 # *            © Copyright 2023
 # *
 # *         https://t.me/shitmodules
@@ -24,14 +24,15 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/Facts.jpeg
-# meta banner: https://te.legra.ph/file/5133a6a7e4281e589c1ec.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/facts.png
 
 # meta developer: @shitmodules
 
 import random
+
 from asyncio import sleep
 from .. import loader, utils
-from hikkatl.tl.types import Message
+from telethon.tl.types import Message
 
 channel = "interesnie_fac"
 
@@ -62,13 +63,13 @@ class Facts(loader.Module):
         """
         wtf = random.choice(self.messages)
         msg = await utils.answer(
-            message, 
+            message,
             self.strings["wait"],
         )
 
         await sleep(0.65)
         await msg.delete()
         await utils.answer(
-            message, 
+            message,
             wtf,
         )

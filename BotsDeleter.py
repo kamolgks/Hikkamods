@@ -24,7 +24,6 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://github.com/kamolgks/assets/raw/main/BotsDeleter.png
-# meta banner:
 
 # meta developer: @shitmodules
 
@@ -32,7 +31,7 @@ import logging
 from .. import loader, utils
 
 from telethon import functions
-from hikkatl.types import Message
+from telethon.tl.types import Message
 
 logger = logging.getLogger(__name__)
 
@@ -43,20 +42,18 @@ class BotsDeleterMod(loader.Module):
 
     strings = {
         "name": "BotsDeleter",
-        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Starting to stop bots...</b>",
-        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove bots...</b>",
+        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to stop the bots ...</b>",
+        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove all bots from the account...</b>",
         "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully stopped</b>",
         "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>",
     }
 
     strings_ru = {
-        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Начинаем останавливать ботов...</b>",
-        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>Я начинаю удалять ботов...</b>",
+        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Начинаю стопать ботов...</b>",
+        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>Начинаю удаление всех ботов с аккаунта...</b>",
         "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно остановлены</b>",
         "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно удалены</b>",
     }
-
-    # КТО ПРОЧИТАЕТ ТОТ - ЛОХ
 
     @loader.command(ru_doc="> Чтобы остановить работу всех ботов")
     async def stopallbotscmd(self, message: Message):

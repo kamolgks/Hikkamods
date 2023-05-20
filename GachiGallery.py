@@ -23,11 +23,12 @@ __version__ = (0, 0, 1)
 # scope: hikka_only
 # scope: hikka_min 1.6.2
 
-# meta banner: https://te.legra.ph/file/4345877c9916adcde2678.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/gachigallery.png
 # meta developer: @shitmodules
 
 import random
-from .. import loader, utils
+
+from .. import loader
 from telethon.tl.types import Message
 
 photos = [
@@ -50,17 +51,19 @@ photos = [
     {"photo": "https://imgur.io/Z4uZZHx?r"},
 ]
 
+
 async def random_photo() -> str:
     sex = random.choice(photos)
     return sex["photo"]
 
+
 @loader.tds
 class GachiGalleryMod(loader.Module):
-  """random gachimuchi photos and memes"""
-  
-  strings = {"name": "GachiGallery"}
-  
-  @loader.command(ru_doc="Скидывает инлайн галерею с мемами (гачи мемы)")
-  async def gachicmd(self, message: Message):
-    """.gachi > sends random gachi photos and memes"""
-    await self.inline.gallery(message, random_photo)
+    """random gachimuchi photos and memes"""
+
+    strings = {"name": "GachiGallery"}
+
+    @loader.command(ru_doc="Скидывает инлайн галерею с мемами (гачи мемы)")
+    async def gachicmd(self, message: Message):
+        """.gachi > sends random gachi photos and memes"""
+        await self.inline.gallery(message, random_photo)

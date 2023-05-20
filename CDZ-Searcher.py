@@ -24,7 +24,7 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/CDZ-Searcher.jpg
-# meta banner: https://te.legra.ph/file/9ec8265adfa69ca9475b8.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/cdz-searcher.png
 
 # meta developer: @shitmodules
 
@@ -36,6 +36,7 @@ from telethon.errors.rpcerrorlist import YouBlockedUserError
 from .. import utils, loader
 
 logger = logging.getLogger(__name__)
+
 
 @loader.tds
 class CDZSearcherMod(loader.Module):
@@ -49,7 +50,7 @@ class CDZSearcherMod(loader.Module):
         "no_link": (
             "<emoji document_id=5787344491488742956>🎮</emoji><b>Where is the link?</b>"
         ),
-        "unl_bot" :(
+        "unl_bot": (
             "<emoji document_id=5785038454828043276>✖️</emoji>Unlock - @CDZ_AnswersBot"
         ),
     }

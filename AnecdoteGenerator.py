@@ -23,7 +23,8 @@ __version__ = (0, 0, 1)
 # scope: hikka_only
 # scope: hikka_min 1.5.3
 
-# meta banner: https://te.legra.ph/file/7c1b2f3c9c6f93b89122c.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/anecdotegenerator.png
+
 # meta developer: @shitmodules
 
 import random
@@ -32,12 +33,13 @@ from telethon.tl.types import Message
 
 chat = "anertsy"
 
+
 @loader.tds
 class AnecdoteGeneratorMod(loader.Module):
     """Anecdote generator by @shitmodules"""
 
     strings = {
-        "name": "AnecdoteGenerator",    
+        "name": "AnecdoteGenerator",
     }
 
     async def client_ready(self):

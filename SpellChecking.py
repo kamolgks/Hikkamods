@@ -25,19 +25,20 @@ __version__ = (0, 0, 3)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/SpellChecking.png
-# meta banner: https://te.legra.ph/file/9d6a1fbe488c1ba111ade.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/spellchecking.png
 
 # meta developer: @shitmodules
 
 import logging
 
-from hikkatl.types import Message
+from telethon.tl.types import Message
 from asyncio.exceptions import TimeoutError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from .. import loader, utils
 
 logger = logging.getLogger(__name__)
+
 
 @loader.tds
 class SpellCheckingMod(loader.Module):
@@ -51,7 +52,7 @@ class SpellCheckingMod(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><b>There are no arguments or they are not enough!</b>"
         ),
-        "unl_bot" :(
+        "unl_bot": (
             "<emoji document_id=5215557810359639942>⚠️</emoji>Unlock @SpellCheckBot"
         ),
         "time_err": (
@@ -59,7 +60,7 @@ class SpellCheckingMod(loader.Module):
             "<b>Either the bot is loaded, or it's dead. Try again a little later</b>"
         ),
     }
-    
+
     strings_ru = {
         "processing": (
             "<emoji document_id=5787344001862471785>✍️</emoji><b>Загрузка...</b>"
@@ -83,7 +84,7 @@ class SpellCheckingMod(loader.Module):
         "no_args": (
             "<emoji document_id=5215552806722738551>👎</emoji><b>argumentlar yo'q yoki ular etarli emas!</b>"
         ),
-        "unl_bot" :(
+        "unl_bot": (
             "<emoji document_id=5215557810359639942>⚠️</emoji>@SpellCheckBot botini blokdan chiqarish"
         ),
         "time_err": (
@@ -115,10 +116,10 @@ class SpellCheckingMod(loader.Module):
     )
     async def orfgcmd(self, message: Message):
         """> Suggestion for checking spelling errors"""
-        
+
         chat = "@SpellCheckBot"
         args = utils.get_args_raw(message)
-        
+
         if len(args) < 2:
             await utils.answer(message, self.strings("no_args"))
             return
@@ -134,17 +135,17 @@ class SpellCheckingMod(loader.Module):
             except YouBlockedUserError:
                 await utils.answer(message, self.strings("unl_bot"))
                 return
-            
+
             except TimeoutError:
                 await utils.answer(message, self.strings("time_err"))
                 return
-            
+
             if response.text:
                 await self._client.send_message(
-                    message.to_id, 
+                    message.to_id,
                     response.text,
                     reply_to=message.reply_to_msg_id,
                 )
-            
+
             await msg.delete()
             await self.client.delete_dialog(chat)

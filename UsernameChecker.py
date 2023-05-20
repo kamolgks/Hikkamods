@@ -23,13 +23,13 @@ __version__ = (0, 0, 1)
 # scope: hikka_only
 # scope: hikka_min 1.6.2
 
-# meta banner: https://te.legra.ph/file/dfb65efafcbad191f7a46.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/usernamechecker.png
 # meta developer: @shitmodules
 
 import logging
 
 from telethon import functions
-from hikkatl.types import Message
+from telethon.tl.types import Message
 
 from .. import loader, utils
 
@@ -71,17 +71,22 @@ class UsernameCheckerMod(loader.Module):
         ),
     }
 
-    @loader.command(ru_doc="> Введите юзер для проверки.")
+    @loader.command(
+        ru_doc="> Введите юзер для проверки.",
+    )
     async def ucheckcmd(self, message: Message):
         """> Enter the user for verification"""
         args = utils.get_args_raw(message)
         result = await message.client(functions.account.CheckUsernameRequest(username=args))
 
         if args == "":
-            return await utils.answer(message, self.strings("wah_args"))
+            await utils.answer(message, self.strings("wah_args"))
+            return
 
         if result == True:
-            return await utils.answer(message, self.strings("true"))
+            await utils.answer(message, self.strings("true"))
+            return
 
         if result == False:
-            return await utils.answer(message, self.strings("false"))
+            await utils.answer(message, self.strings("false"))
+            return

@@ -24,7 +24,7 @@ __version__ = (1, 0, 4)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/GamesForAndroid.jpeg
-# meta banner: https://te.legra.ph/file/80cbbaf158e12a29f8453.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/gamesforandroid.png
 
 # meta developer: @shitmodules
 
@@ -35,6 +35,7 @@ from telethon.tl.types import Message
 from ..inline.types import InlineCall
 
 logger = logging.getLogger(__name__)
+
 
 @loader.tds
 class GamesForAndroid(loader.Module):
@@ -256,7 +257,7 @@ class GamesForAndroid(loader.Module):
             "Приготовьтесь к головокружительному действию!\n\nПриготовьтесь к головокружительному действию!\n\n"
             "Выполняйте безумные трюки, путешествуя по бесконечному миру Rider! Хватайте свой мотоцикл и начинайте кувыркаться, как маньяк!"
         ),
-        "brawl":(
+        "brawl": (
             "Brawl Stars — долгожданный экшен от Supercell."
         ),
         "brawl_vzlom": (
@@ -271,7 +272,7 @@ class GamesForAndroid(loader.Module):
             "Bowmasters [Бесконечные деньги] - Аркадный шутер с луками и физикой\n-------------\n💰 Особенности мода: "
             "Бесконечные монеты и камни; все символы открыты."
         ),
-        "driving":(
+        "driving": (
             "Drive Zone: Germany - Реалистичный автомобильный симулятор с немецкими автомобилями"
         ),
         "driving_vzlom": (
@@ -349,7 +350,8 @@ class GamesForAndroid(loader.Module):
                     {"text": "Stick War", "callback": self.stick_war},
                 ],
                 [
-                    {"text": "Brawl Stars (mod money)", "callback": self.brawl_vzlom},
+                    {"text": "Brawl Stars (mod money)",
+                     "callback": self.brawl_vzlom},
                 ],
                 [
                     {"text": self.strings("back"), "callback": self._back},
@@ -409,7 +411,8 @@ class GamesForAndroid(loader.Module):
             reply_markup=[
                 [
                     {"text": "Traffic Rider", "callback": self.traffic_rider_org},
-                    {"text": "Traffic Rider Mod", "callback": self.traffic_rider_mod},
+                    {"text": "Traffic Rider Mod",
+                        "callback": self.traffic_rider_mod},
                 ],
                 [
                     {"text": "Rider", "callback": self.rider},
@@ -417,7 +420,8 @@ class GamesForAndroid(loader.Module):
                 ],
                 [
                     {"text": "Driving Zone", "callback": self.driving},
-                    {"text": "Driving Zone(mod)", "callback": self.driving_vzlom},
+                    {"text": "Driving Zone(mod)",
+                     "callback": self.driving_vzlom},
                 ],
                 [
                     {"text": self.strings("back"), "callback": self._back},
@@ -439,7 +443,8 @@ class GamesForAndroid(loader.Module):
                     {"text": "Bowmasters", "callback": self.bowmaster},
                 ],
                 [
-                    {"text": "Bowmasters(mod)", "callback": self.bowmaster_vzlom},
+                    {"text": "Bowmasters(mod)",
+                     "callback": self.bowmaster_vzlom},
                     {"text": "Among Us", "callback": self.among_us},
                 ],
                 [
@@ -602,7 +607,7 @@ class GamesForAndroid(loader.Module):
     async def among_us(self, *_):
         await self.client.send_message(
             self.chat_id, self.strings("among_us"), file="https://t.me/logimeh/61",
-         )
+        )
 
     async def among_us_mod(self, *_):
         await self.client.send_message(

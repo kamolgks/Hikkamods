@@ -24,7 +24,7 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/AnonUploader.jpg
-# meta banner: https://te.legra.ph/file/607caf43f68c6fc6bbaa3.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/anonymuploader.png
 
 # meta developer: @shitmodules
 
@@ -34,14 +34,15 @@ import random
 import logging
 import requests
 
+from .. import loader, utils
 from telethon.tl.types import Message
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-from .. import loader, utils
 
 logger = logging.getLogger(__name__)
 
+
 @loader.tds
-class AnonymUploaderMod(loader.Module):
+class AnonymUploader(loader.Module):
     """Anonymous files upload via anonfiles.com"""
 
     strings = {
@@ -78,7 +79,8 @@ class AnonymUploaderMod(loader.Module):
                 or (
                     "".join(
                         [
-                            random.choice("abcdefghijklmnopqrstuvwxyz1234567890")
+                            random.choice(
+                                "abcdefghijklmnopqrstuvwxyz1234567890")
                             for _ in range(16)
                         ]
                     )

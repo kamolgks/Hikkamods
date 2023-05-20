@@ -24,17 +24,18 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/RandomChats.jpg
-# meta banner: https://te.legra.ph/file/abfc3920903d7e6ae5850.mp4
+# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/randomchats.png
 
 # meta developer: @shitmodules
 
 from telethon import events, functions
 
-from hikkatl.types import Message
+from telethon.tl.types import Message
 from asyncio.exceptions import TimeoutError
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from .. import loader, utils
+
 
 @loader.tds
 class RandomChatsMod(loader.Module):
@@ -110,7 +111,7 @@ class RandomChatsMod(loader.Module):
     async def rchatcmd(self, message: Message):
         """> Throws a random link to the chat"""
 
-        msg = await utils.answer(message, self.strings("processing")) 
+        msg = await utils.answer(message, self.strings("processing"))
         chat = "@iris_moon_bot"
 
         async with message.client.conversation(chat) as conv:
@@ -129,7 +130,7 @@ class RandomChatsMod(loader.Module):
 
             if response.text:
                 await msg.edit(f"<emoji document_id=5190568934717270805>🙂</emoji><b>{response.text}<b>")
-            
+
             await message.client(
                 functions.messages.DeleteHistoryRequest(
                     peer="@iris_moon_bot", max_id=0, just_clear=False, revoke=True,
