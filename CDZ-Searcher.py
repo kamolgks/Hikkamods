@@ -24,7 +24,7 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/CDZ-Searcher.jpg
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/cdz-searcher.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/CDZ-Searcher%20.jpg
 
 # meta developer: @shitmodules
 

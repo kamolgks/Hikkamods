@@ -24,7 +24,7 @@ __version__ = (1, 0, 9)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://te.legra.ph/file/9fbbf3676de7a1e844e56.jpg
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/multisaver.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/MultiSaver.jpg
 
 # meta developer: @shitmodules
 

@@ -23,7 +23,8 @@ __version__ = (0, 0, 1)
 # scope: hikka_only
 # scope: hikka_min 1.6.2
 
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/gachigallery.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/GachiGallery.jpg
+
 # meta developer: @shitmodules
 
 import random

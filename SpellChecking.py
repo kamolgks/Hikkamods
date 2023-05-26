@@ -25,7 +25,7 @@ __version__ = (0, 0, 3)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/SpellChecking.png
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/spellchecking.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/SpellChecking.jpg
 
 # meta developer: @shitmodules
 

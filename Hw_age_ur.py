@@ -24,7 +24,7 @@ __version__ = (1, 0, 0)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/Hw_age_ur.png
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/how%20old%20are%20you.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/Hw_age_ur.jpg
 
 # meta developer: @shitmodules
 

@@ -24,7 +24,7 @@ __version__ = (1, 0, 4)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/GamesForAndroid.jpeg
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/gamesforandroid.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/GamesForAndroid.jpg
 
 # meta developer: @shitmodules
 

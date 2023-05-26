@@ -23,7 +23,7 @@ __version__ = (0, 0, 1)
 # scope: hikka_only
 # scope: hikka_min 1.5.3
 
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/anecdotegenerator.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/AnecdoteGenerator.jpg
 
 # meta developer: @shitmodules
 

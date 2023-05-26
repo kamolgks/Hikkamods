@@ -24,7 +24,7 @@ __version__ = (0, 0, 1)
 # scope: hikka_min 1.6.2
 
 # meta pic: https://raw.githubusercontent.com/kamolgks/assets/main/AnonUploader.jpg
-# meta banner: http://devs.farkhodovme.tk/bannerget/kamolgks/anonymuploader.png
+# meta banner: https://raw.githubusercontent.com/kamolgks/assets/main/AnonymUploader.jpg
 
 # meta developer: @shitmodules
 
