@@ -10,7 +10,7 @@ __version__ = (1, 0, 0)
 # *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
 # *
 # *
-# *            © Copyright 2022/2023
+# *            © Copyright 2023
 # *
 # *         https://t.me/shitmodules
 # *
@@ -128,7 +128,7 @@ class FarmPAMod(loader.Module):
                     await asyncio.sleep(84600)
 
         except Exception as e:
-            await utils.answer(message, "Something went wrong..\nError: {}\n\nIf the error persists, please report this error in the support chat: https://t.me/shitmodules_chat".format(e))
+            await utils.answer(message, f"Something went wrong..\nError: {e}\n\nIf the error persists, please report this error in the support chat: https://t.me/shitmodules_chat")
             logging.info("An error has occurred")
 
     @loader.command(
