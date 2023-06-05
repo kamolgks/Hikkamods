@@ -62,6 +62,7 @@ class ImgbbMod(loader.Module):
                 "api_key",
                 None,
                 lambda: self.strings["api_key_doc"],
+                validator=loader.validators.Hidden(loader.validators.String()),
             ),
         )
 
