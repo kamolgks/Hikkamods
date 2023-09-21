@@ -10,7 +10,7 @@ __version__ = (1, 0, 9)
 # *    \_______/ \__|  \__|\__|   \____/ \__| \__| \__| \______/  \_______| \______/ \__| \_______|\_______/
 # *
 # *
-# *            © Copyright 2023
+# *            © Copyright 2022/2023
 # *
 # *         https://t.me/shitmodules
 # *
@@ -28,12 +28,12 @@ __version__ = (1, 0, 9)
 
 # meta developer: @shitmodules
 
-import logging
 import asyncio
-
-from telethon.tl.types import Message
+import logging
 from asyncio.exceptions import TimeoutError
+
 from telethon.errors.rpcerrorlist import YouBlockedUserError
+from telethon.tl.types import Message
 
 from .. import loader, utils
 
@@ -46,121 +46,113 @@ class MultiSaverMod(loader.Module):
 
     strings = {
         "name": "MultiSaver",
-        "processing": (
-            "<emoji document_id=5190568934717270805>🙂</emoji><b>Processing...</b>"
+        "loading": (
+            "<emoji document_id=5190568934717270805>🙂</emoji><b>Loading...</b>"
         ),
         "successfully": (
-            "<emoji document_id=5379619324774326601>😏</emoji><b>Successfuly downloaded</b>"
+            "<emoji document_id=5974141780357025338>⬇️</emoji><b>Successfully downloaded</b>"
         ),
-        "where-link": (
-            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Where is the link?</b>"
+        "noargs": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>Where is the link?</b>"
         ),
-        "unl-bot": (
-            "<emoji document_id=5215557810359639942>⚠️</emoji><b>Unlock @saveasbot bot</b>"
+        "unl_bot": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>Unlock @saveasbot</b>"
         ),
-        "time-err": (
-            "<emoji document_id=5269492338920528466>😱</emoji>"
+        "time_err": (
+            "<emoji document_id=5972201876773408053>🚫</emoji>"
             "<b>The waiting time has expired, either the video is too long, or the bot is heavily loaded. Be patient!</b>"
         ),
     }
 
     strings_ru = {
-        "processing": (
+        "loading": (
             "<emoji document_id=5190568934717270805>🙂</emoji><b>Загрузка...</b>"
         ),
         "successfully": (
-            "<emoji document_id=5379619324774326601>😏</emoji><b>Успешно загружено</b>"
+            "<emoji document_id=5974141780357025338>⬇️</emoji><b>Успешно загружено</b>"
         ),
-        "where-link": (
-            "<emoji document_id=5280821895711697516>⛔️</emoji><b>А где ссылка?</b>"
+        "noargs": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>А где ссылка?</b>"
         ),
-        "unl-bot": (
-            "<emoji document_id=5215557810359639942>⚠️</emoji><b>Разблокируй @saveasbot бота</b>"
+        "unl_bot": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>Разблокируй @saveasbot</b>"
         ),
-        "time-err": (
-            "<emoji document_id=5269492338920528466>😱</emoji>"
-            "<b>Истекло время ожидания, либо видос слишком длинный, либо бот сильно нагружен. Наберись терпения!</b>"
+        "time_err": (
+            "<emoji document_id=5972201876773408053>🚫</emoji>"
+            "<b>Истекло время ожидания, либо видос слишком длинный, либо бот сильно нагружен. Наберись терпения и попробуй попозже!</b>"
         ),
     }
 
     strings_uz = {
-        "processing": (
+        "loading": (
             "<emoji document_id=5190568934717270805>🙂</emoji><b>Yuklanmoqda...</b>"
         ),
         "successfully": (
-            "<emoji document_id=5379619324774326601>😏</emoji><b>Muvaffaqiyatli yuklab olindi.</b>"
+            "<emoji document_id=5974141780357025338>⬇️</emoji><b>Muvaffaqiyatli yuklab olindi.</b>"
         ),
-        "where-link": (
-            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Havola qani?</b>"
+        "noargs": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>Havola qani?</b>"
         ),
-        "unl-bot": (
-            "<emoji document_id=5215557810359639942>⚠️</emoji><b>@saveasbot botini blokdan chiqarish</b>"
+        "unl_bot": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>@saveasbot ni blokdan chiqarish</b>"
         ),
-        "time-err": (
-            "<emoji document_id=5269492338920528466>😱</emoji>"
-            "<b>Kutish vaqti tugadi, yoki video juda uzun yoki bot og'ir yuklangan. Sabr qiling!</b>"
+        "time_err": (
+            "<emoji document_id=5972201876773408053>🚫</emoji>"
+            "<b>Kutish vaqti tugadi, yoki video juda uzun yoki bot og'ir yuklangan. Sabr qilib, birozdan keyin urinib ko'ring!</b>"
         ),
     }
 
     strings_tr = {
-        "processing": (
+        "loading": (
             "<emoji document_id=5190568934717270805>🙂</emoji><b>İşleme...</b>"
         ),
         "successfully": (
-            "<emoji document_id=5379619324774326601>😏</emoji><b>Başarıyla indirildi</b>"
+            "<emoji document_id=5974141780357025338>⬇️</emoji><b>Başarıyla indirildi</b>"
         ),
-        "where-link": (
-            "<emoji document_id=5280821895711697516>⛔️</emoji><b>Bağlantı nerede?</b>"
+        "noargs": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>Bağlantı nerede?</b>"
         ),
-        "unl-bot": (
-            "<emoji document_id=5215557810359639942>⚠️</emoji><b>@saveasbot botunun kilidini aç</b>"
+        "unl_bot": (
+            "<emoji document_id=5972201876773408053>🚫</emoji><b>@saveasbot botunun kilidini aç</b>"
         ),
-        "time-err": (
-            "<emoji document_id=5269492338920528466>😱</emoji>"
+        "time_err": (
+            "<emoji document_id=5972201876773408053>🚫</emoji>"
             "<b>Bekleme süresi doldu, ya video çok uzun ya da bot çok yüklü. Sabırlı ol!</b>"
         ),
     }
 
     @loader.group_member
     @loader.command(
-        ru_doc="> Скачать фото/видео из инстаграм, Тик ток и Пинтереста",
-        uz_doc="> Foto/videoni instagram, tik tok va pinterestdan yuklab oling",
-        tr_doc="> İnstagram, Tick Tok ve Pinterest'ten fotoğraf /video indirin",
+        ru_doc="> Ссылка на фото/видео",
+        uz_doc="> Foto/video havolasi",
+        tr_doc="> fotoğraflara/videolara bağlantılar",
     )
-    async def imtcmd(self, message: Message):
+    async def imt(self, message: Message):
         """> photo/video link"""
-
         chat = "@SaveAsBot"
-        url = utils.get_args_raw(message)
+        args = utils.get_args_raw(message)
+        if len(args) == 0:
+            return await utils.answer(message, self.strings["noargs"])
 
-        if not url:
-            await utils.answer(message, self.strings("where-link"))
-            return
-
-        msg = await utils.answer(message, self.strings("processing"))
-
+        msg = await utils.answer(message, self.strings["loading"])
         async with self._client.conversation(chat) as conv:
             try:
                 bot = []
-                bot += [await conv.send_message(url)]
+                bot += [await conv.send_message(args)]
                 response = await conv.get_response()
             except YouBlockedUserError:
-                await utils.answer(message, self.strings("unl-bot"))
-                return
-
+                return await utils.answer(message, self.strings["unl_bot"])
             except TimeoutError:
-                await utils.answer(message, self.strings("time-err"))
-                return
+                return await utils.answer(message, self.strings["time_err"])
 
             if response.media:
                 await self._client.send_file(
                     message.to_id,
                     response.media,
-                    caption=self.strings("successfully"),
+                    caption=self.strings["successfully"],
                     reply_to=message.reply_to_msg_id,
                 )
 
         await msg.delete()
-        await asyncio.sleep(1)
-
+        await asyncio.sleep(0.64)
         await self.client.delete_dialog(chat)
