@@ -66,10 +66,8 @@ class QuoteGenMod(loader.Module):
     async def qn(self, message: Message):
         """Usage: .qn"""
         msg = await utils.answer(message, self.strings["loading"])
-        url = "https://api.quotable.io/random"
-        response = requests.get(url=url)
-        if response.status_code == 200:
-            data = response.json()
+        data = (await utils.run_sync(requests.get, "https://api.quotable.io/random")).json()
+        if data:
             quote = data["content"]
             author = data["author"]
             await msg.edit(self.strings["result"].format(quote, author))
