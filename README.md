@@ -1,15 +1,33 @@
-![wahui](https://github.com/kamolgks/assets/blob/main/wah.gif)
+# Install
 
-<div class="center">
-	<a href="https://github.com/kamolgks/mods/blob/main/LICENSE">
-		<img alt="License" src="https://img.shields.io/github/license/kamolgks/mods?style=for-the-badge"></a>
+```
+.dlmod https://raw.githubusercontent.com/kamolgks/Hikkamods/main...               # <-- module name here
+.dlmod https://raw.githubusercontent.com/kamolgks/Hikkamods/main/MultiSaver.py    # example
+```
 
+or
 
-<a href="https://github.com/kamolgks/mods/commits/main">
-	<img alt="last-commit" src="https://img.shields.io/github/last-commit/kamolgks/mods?style=for-the-badge"></a>
+```
+.config
+```
 
+**```-->``` Loader ```-->``` ADDITIONAL_REPOS ```-->``` Add item ```-->```**
 
-<h1>Developer</h1>
-<a href="https://t.me/kamolgks">Telegram</a> | <a href="https://instagram.com/kamolgks">Instagram</a>
+write this:
 
-</div>
+```
+https://raw.githubusercontent.com/kamolgks/Hikkamods/main
+```
+
+and install all my modules with the commands:
+
+```
+.dlmod ...            # <-- module name here
+.dlmod MultiSaver    # example
+```
+
+or
+
+```
+.addrepo https://raw.githubusercontent.com/kamolgks/Hikkamods/main
+```

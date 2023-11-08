@@ -29,12 +29,14 @@ __version__ = (0, 0, 1)
 # meta developer: @shitmodules
 
 import random
-
 from asyncio import sleep
-from .. import loader, utils
-from telethon.tl.types import Message
+
+from hikkatl.types import Message  # type: ignore
+
+from .. import loader, utils  # type: ignore
 
 channel = "interesnie_fac"
+
 
 @loader.tds
 class Facts(loader.Module):
@@ -42,34 +44,31 @@ class Facts(loader.Module):
 
     strings = {
         "name": "Facts",
-        "wait": "<emoji document_id=5472146462362048818>💡</emoji><b>Looking for something interesting for you...</b>",
+        "wait": (
+            "<emoji document_id=5472146462362048818>💡</emoji>"
+            "<b>Looking for something interesting for you...</b>"
+        ),
     }
 
     strings_ru = {
-        "wait": "<emoji document_id=5472146462362048818>💡</emoji><b>Ищу для тебя что-то интересное...</b>",
+        "wait": (
+            "<emoji document_id=5472146462362048818>💡</emoji>"
+            "<b>Ищу для тебя что-то интересное...</b>"
+        ),
     }
 
     async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
+        self._db = db
+        self._client = client
         self.messages = await self.client.get_messages(channel, limit=None)
 
-    @loader.command(
-        ru_doc="> Поищу для тебя какую нибудь интересную информацию)",
-    )
+    @loader.command(ru_doc="> Поищу для тебя какую нибудь интересную информацию)")
     async def ifacts(self, message: Message):
         """
         > I'll look for some interesting information for you)
         """
         wtf = random.choice(self.messages)
-        msg = await utils.answer(
-            message,
-            self.strings["wait"],
-        )
-
-        await sleep(0.65)
+        msg = await utils.answer(message, self.strings["wait"])
+        await sleep(0.4)
         await msg.delete()
-        await utils.answer(
-            message,
-            wtf,
-        )
+        await utils.answer(message, wtf)

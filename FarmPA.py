@@ -1,4 +1,4 @@
-__version__ = (1, 0, 0)
+__version__ = (1, 0, 2)
 # *
 # *              $$\       $$\   $$\                                   $$\           $$\
 # *              $$ |      \__|  $$ |                                  $$ |          $$ |
@@ -28,13 +28,14 @@ __version__ = (1, 0, 0)
 
 # meta developer: @shitmodules
 
-import logging
 import asyncio
+import logging
 
-from telethon.tl.types import Message
-from .. import loader, utils
+from hikkatl.types import Message  # type: ignore
 
-logging = logging.getLogger("FarmPA")
+from .. import loader, utils  # type: ignore
+
+logging = logging.getLogger(__name__)
 
 
 @loader.tds
@@ -94,8 +95,8 @@ class FarmPAMod(loader.Module):
         )
 
     async def client_ready(self, client, db):
-        self.db = db
-        self.client = client
+        self._db = db
+        self._client = client
 
     @loader.command(
         ru_doc="Включить/отключить режим автоматического фарма для бота Pipisa.",
@@ -109,22 +110,19 @@ class FarmPAMod(loader.Module):
         """
         try:
             status = self.db.get("farm_status", "status")
-            msg = await utils.answer(message, self.strings["loading"])
-            text = "/dick"
             group_id = self.config["group_id"]
             if not group_id:
-                await msg.edit(self.strings["id_error"])
+                await utils.answer(message, self.strings["id_error"])
                 return
 
             if status:
                 self.db.set("farm_status", "status", False)
                 await utils.answer(message, self.strings["disable"])
-
             else:
                 self.db.set("farm_status", "status", True)
                 await utils.answer(message, self.strings["enable"])
                 while self.db.get("farm_status", "status"):
-                    await message.client.send_message(int(group_id), text)
+                    await message.client.send_message(int(group_id), "/dick")
                     await asyncio.sleep(84600)
 
         except Exception as e:

@@ -28,10 +28,11 @@ __version__ = (0, 0, 1)
 # meta developer: @shitmodules
 
 import logging
-from .. import loader, utils
 
+from hikkatl.types import Message  # type: ignore
 from telethon import functions
-from telethon.tl.types import Message
+
+from .. import loader, utils  # type: ignore
 
 logger = logging.getLogger(__name__)
 
@@ -42,15 +43,15 @@ class BotsDeleterMod(loader.Module):
 
     strings = {
         "name": "BotsDeleter",
-        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to stop the bots ...</b>",
-        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>I'm starting to remove all bots from the account...</b>",
+        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Stopping all bots...</b>",
+        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>Removing all bots from your account...</b>",
         "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully stopped</b>",
         "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>All bots have been successfully removed</b>",
     }
 
     strings_ru = {
-        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Начинаю стопать ботов...</b>",
-        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>Начинаю удаление всех ботов с аккаунта...</b>",
+        "processing": "<emoji document_id=5213452215527677338>⏳</emoji><b>Остановка всех ботов...</b>",
+        "assist": "<emoji document_id=5213452215527677338>⏳</emoji><b>Удаление всех ботов с аккаунта...</b>",
         "stop": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно остановлены</b>",
         "del": "<emoji document_id=5418063924933173277>👨‍💻</emoji><b>Все боты были успешно удалены</b>",
     }
@@ -58,29 +59,23 @@ class BotsDeleterMod(loader.Module):
     @loader.command(ru_doc="> Чтобы остановить работу всех ботов")
     async def stopallbotscmd(self, message: Message):
         """> To stop all bots from working"""
-        msg = await utils.answer(message, self.strings("processing"))
-        t = self.strings("stop")
         k = ""
+        msg = await utils.answer(message, self.strings["processing"])
         async for dialog in self.client.iter_dialogs():
-            if hasattr(dialog.entity, "bot"):
-                if dialog.entity.bot == True:
-                    k += "@" + dialog.entity.username + \
-                        "has ID" + str(dialog.id) + "\n"
-                    await self.client(functions.contacts.BlockRequest(id=dialog.id))
+            if hasattr(dialog.entity, "bot") and dialog.entity.bot:
+                k += f"@{dialog.entity.username} has ID {dialog.id}\n"
+                await self.client(functions.contacts.BlockRequest(id=dialog.id))
 
-        await msg.edit(f"{t}")
+        await msg.edit(self.strings["stop"])
 
     @loader.command(ru_doc="> Чтобы удалить диалоги со всеми ботами")
     async def delallbotscmd(self, message: Message):
         """> To delete dialogs with all bots"""
-        msg = await utils.answer(message, self.strings("assist"))
-        t = self.strings("del")
         k = ""
+        msg = await utils.answer(message, self.strings["assist"])
         async for dialog in self.client.iter_dialogs():
-            if hasattr(dialog.entity, "bot"):
-                if dialog.entity.bot == True:
-                    k += "@" + dialog.entity.username + \
-                        "has ID" + str(dialog.id) + "\n"
-                    await dialog.delete()
+            if hasattr(dialog.entity, "bot") and dialog.entity.bot:
+                k += f"@{dialog.entity.username} has ID {dialog.id}\n"
+                await dialog.delete()
 
-        await msg.edit(f"{t}")
+        await msg.edit(self.strings["del"])
