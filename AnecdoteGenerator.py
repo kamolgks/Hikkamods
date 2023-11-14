@@ -1,4 +1,4 @@
-__version__ = (0, 0, 1)
+__version__ = (1, 0, 2)
 # *
 # *              $$\       $$\   $$\                                   $$\           $$\
 # *              $$ |      \__|  $$ |                                  $$ |          $$ |
@@ -27,11 +27,18 @@ __version__ = (0, 0, 1)
 
 # meta developer: @shitmodules
 
+
+import logging
 import random
-from .. import loader, utils
-from telethon.tl.types import Message
+
+import aiohttp
+from hikkatl.types import Message  # type: ignore
+
+from .. import loader, utils  # type: ignore
 
 chat = "anertsy"
+
+logger = logging.getLogger(__name__)
 
 
 @loader.tds
@@ -40,13 +47,43 @@ class AnecdoteGeneratorMod(loader.Module):
 
     strings = {
         "name": "AnecdoteGenerator",
+        "loading": "<emoji document_id=5451732530048802485>⏳</emoji> Loading...",
+        "error": "<emoji document_id=5197593315075169671>😢</emoji> Something went wrong, try again",
     }
 
-    async def client_ready(self):
+    strings_ru = {
+        "loading": "<emoji document_id=5451732530048802485>⏳</emoji> Загрузка...",
+        "error": "<emoji document_id=5197593315075169671>😢</emoji> Что-то пошло не так, попробуй снова",
+    }
+
+    async def client_ready(self, client, db):
+        self._db = db
+        self._client = client
         self.messages = await self.client.get_messages(chat, limit=None)
 
     @loader.command(ru_doc="Генерирует анекдоты (они не всегда смешные)")
-    async def aneccmd(self, message: Message):
+    async def anec(self, message: Message):
         """Sends an anecdote (not always funny)"""
         wtf = random.choice(self.messages)
         await utils.answer(message, wtf)
+
+    @loader.command()
+    async def joke(self, message: Message):
+        """Sends an anecdote x2 (not always funny)"""
+        try:
+            await utils.answer(message, self.strings["loading"])
+            url = "https://v2.jokeapi.dev/joke/Any"
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    response.raise_for_status()
+                    data = await response.json()
+                    if data:
+                        joke = data.get("joke")
+                        answer_text = joke if joke else self.strings["error"]
+                    else:
+                        answer_text = self.strings["error"]
+
+            await utils.answer(message, answer_text)
+
+        except aiohttp.ClientError as e:
+            await utils.answer(message, f"<i>{e}</i>")
