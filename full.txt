@@ -1,13 +1,11 @@
 MultiSaver
 AnecdoteGenerator
-GachiGallery
 GamesForAndroid
 SpellChecking
 IndividualLinks
 AnonymUploader
 UsernameChecker
 BotsDeleter
-CDZ-Searcher
 RandomChats
 Facts
 Hw_age_ur

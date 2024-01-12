@@ -1,4 +1,4 @@
-__version__ = (0, 0, 5)
+__version__ = (1, 0, 6)
 # *
 # *              $$\       $$\   $$\                                   $$\           $$\
 # *              $$ |      \__|  $$ |                                  $$ |          $$ |
@@ -31,19 +31,20 @@ __version__ = (0, 0, 5)
 import logging
 
 from .. import loader, utils # type: ignore
-from telethon.tl.types import Message
+from hikkatl.types import Message # type: ignore
 
 logger = logging.getLogger(__name__)
 
 
 @loader.tds
-class IndividualLinksMod(loader.Module):
+class IndividualLinks(loader.Module):
     """> Links to individual content in telegram."""
 
     strings = {
         "name": "IndividualLinks",
         "loading": "<emoji document_id=5292226786229236118>🔄</emoji> <b>Loading...</b>",
         "links": (
+            "<emoji document_id=5273942560694347620>🥰</emoji>Press `F`"
             "https://t.me/+pbJv2A-WQD0yNGMy\n"
             "https://t.me/kdn4h\n"
             "https://t.me/+70GsDVKwnN1mMmJi\n"
@@ -54,22 +55,22 @@ class IndividualLinksMod(loader.Module):
             "https://t.me/porn_in_a_minute\n"
             "https://t.me/+Uay7cXVOXFtHRmLj\n"
             "https://t.me/TheOfficeBruh\n"
-            "https://t.me/ne_tvoya_suka\n" # каналы нашел @texmacros
+            "https://t.me/ne_tvoya_suka\n"
             "https://t.me/+vAqM7BVWT-VlY2Qy\n"
             "https://t.me/+YzDq9RwWlCc1N2Ey\n"
             "https://t.me/+RfdHbMqqeUdiNDUy\n"
             "https://t.me/+EjMIiaCIDzZlMzA6\n"
             "https://t.me/+DRZurxHB_EVkMjZi\n"
             "https://t.me/+fKnl-36ghaI2MjRl\n"
+            "http://t.me/+kdnO91tZ8u0wODJi\n"
         ),
     }
 
-    strings_ru = {
-        "loading": "<emoji document_id=5292226786229236118>🔄</emoji> <b>Загрузка...</b>",
-    }
+    async def client_ready(self, client, db):
+        self._db = db
+        self._client = client
 
     @loader.command()
-    async def flink(self, message: Message):
-        """Just send .flink"""
-        await utils.answer(message, self.strings["loading"])
+    async def indlinks(self, message: Message):
+        """Just send .indlinks"""
         await utils.answer(message, self.strings["links"])

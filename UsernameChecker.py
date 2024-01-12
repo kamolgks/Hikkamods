@@ -1,4 +1,4 @@
-__version__ = (0, 0, 1)
+__version__ = (1, 0, 2)
 # *
 # *              $$\       $$\   $$\                                   $$\           $$\
 # *              $$ |      \__|  $$ |                                  $$ |          $$ |
@@ -29,65 +29,81 @@ __version__ = (0, 0, 1)
 
 import logging
 
-from telethon import functions
-from telethon.tl.types import Message
+from .. import loader, utils # type: ignore
 
-from .. import loader, utils
+from telethon.tl.types import Message
+from telethon.tl.functions.account import CheckUsernameRequest
 
 logger = logging.getLogger(__name__)
 
 
 @loader.tds
-class UsernameCheckerMod(loader.Module):
+class UsernameChecker(loader.Module):
     """
-    A module for checking the user for availability.
+    Validates a username and checks availability.
+
     Accepted characters: A-z (case-insensitive), 0-9 and underscores.
-    Length: 6-32 characters.
+    Length: 5-32 characters.
     """
 
     strings = {
         "name": "UsernameChecker",
         "true": (
-            "<emoji document_id=5215538598970929961>👌</emoji><i><b>User is free and can be used.</b></i>"
+            "<emoji document_id=5215538598970929961>👌</emoji><i><b>User <u>{}</u> is free and can be used.</b></i>"
         ),
-        "wah_args": (
-            "<emoji document_id=5359839982468996640>🦆</emoji>There are no arguments or they are not enough. "
-            "Example of using this module: <code>.ucheck picdato</code> [The user must be no shorter than 6 letters]"
+        "noargs": (
+            "<emoji document_id=5359839982468996640>🦆</emoji>"
+            "There are no arguments or they are not enough. Example of using this module: "
+            "<code>.ucheck myusername</code> (The user must be no shorter than 6 letters)"
         ),
         "false": (
-            "<emoji document_id=5854973145315806460>👮‍♂️</emoji><i><b>The user is already taken by another user, create a new one for yourself.</b></i>"
+            "<emoji document_id=5854973145315806460>👮‍♂️</emoji>"
+            "<i><b>The user <u>{}</u> is already taken by another user, create a new one for yourself.</b></i>"
+        ),
+        "error": (
+            "<emoji document_id=5210952531676504517>❌</emoji>"
+            "An error occurred while executing the request: {}"
         ),
     }
 
     strings_ru = {
         "true": (
-            "<emoji document_id=5215538598970929961>👌</emoji><i><b>Юзер свободен и может быть использован.</b></i>"
+            "<emoji document_id=5215538598970929961>👌</emoji><i><b>Юзер <u>{}</u> свободен и может быть использован.</b></i>"
         ),
-        "wah_args": (
-            "<emoji document_id=5359839982468996640>🦆</emoji>Аргументов нет или их недостаточно. "
-            "Пример использования этого модуля: <code>.ucheck pizdato</code> [Имя пользователя должно быть не короче 6 букв]"
+        "noargs": (
+            "<emoji document_id=5359839982468996640>🦆</emoji>"
+            "Аргументов нет или их недостаточно. Пример использования этого модуля: "
+            "<code>.ucheck musername</code> (Имя пользователя должно быть не короче 6 букв)"
         ),
         "false": (
-            "<emoji document_id=5854973145315806460>👮‍♂️</emoji><i><b>Юзер уже занят другим пользователем, придумайте себе новый.</b></i>"
+            "<emoji document_id=5854973145315806460>👮‍♂️</emoji>"
+            "<i><b>Юзер <u>{}</u> уже занят другим пользователем, придумайте себе новый.</b></i>"
+        ),
+        "error": (
+            "<emoji document_id=5210952531676504517>❌</emoji>"
+            "❌ Произошла ошибка при выполнении запроса: {}"
         ),
     }
 
-    @loader.command(
-        ru_doc="> Введите юзер для проверки.",
-    )
-    async def ucheckcmd(self, message: Message):
+    def __init__(self):
+        self.name = self.strings["name"]
+
+    async def client_ready(self, client, db):
+        self._db = db
+        self._client = client
+
+    @loader.command(ru_doc="> Введите юзер для проверки.")
+    async def ucheck(self, message: Message):
         """> Enter the user for verification"""
         args = utils.get_args_raw(message)
-        result = await message.client(functions.account.CheckUsernameRequest(username=args))
+        if not args:
+            return await utils.answer(message, self.strings["noargs"])
 
-        if args == "":
-            await utils.answer(message, self.strings("wah_args"))
-            return
-
-        if result == True:
-            await utils.answer(message, self.strings("true"))
-            return
-
-        if result == False:
-            await utils.answer(message, self.strings("false"))
-            return
+        try:
+            result = await message.client(CheckUsernameRequest(username=args)) # type: ignore
+            if result:
+                return await utils.answer(message, self.strings["true"].format(args))
+            else:
+                return await utils.answer(message, self.strings["false"].format(args))
+        except Exception as e:
+            return await utils.answer(message, self.strings["error"].format(e))

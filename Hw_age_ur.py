@@ -1,4 +1,4 @@
-__version__ = (1, 0, 0)
+__version__ = (1, 0, 2)
 # *
 # *              $$\       $$\   $$\                                   $$\           $$\
 # *              $$ |      \__|  $$ |                                  $$ |          $$ |
@@ -30,9 +30,8 @@ __version__ = (1, 0, 0)
 
 import datetime
 
-from .. import loader, utils
-
-from telethon.tl.types import Message
+from .. import loader, utils # type: ignore
+from hikkatl.types import Message # type: ignore
 
 
 @loader.tds
@@ -42,35 +41,39 @@ class Hw_age_ur(loader.Module):
     """
 
     strings = {
-        "name": "Hw_age_ur?",
-        "no_date": "❗️<b>Enter your date of birth as shown in the example.</b>",
+        "name": "How old are you?",
+        "no_date": (
+            "<emoji document_id=5447644880824181073>⚠️</emoji>"
+            "<b>Enter your date of birth as shown in the example.</b>"
+        ),
+        "result": (
+            "<emoji document_id=5447410659077661506>🌐</emoji>"
+            "<b>You (he, she) are <u>{}</u> years old.</b>"
+        ),
     }
 
     strings_ru = {
-        "no_date": "❗️<b>Введи дату рождения как указано в примере.</b>",
+        "no_date": (
+            "<emoji document_id=5447644880824181073>⚠️</emoji>"
+            "<b>Введи дату рождения как указано в примере.</b>"
+        ),
+        "result": (
+            "<emoji document_id=5447410659077661506>🌐</emoji>"
+            "<b>Тебе (ему, ей) <u>{}</u> лет.</b>"
+        ),
     }
 
-    @loader.command()
-    async def fy(self, message: Message):
-        """> Usage example: .yo 01.05.1996 | => date, month, year"""
-
+    @loader.command(ru_doc="> .yo 01.05.1996 | => (число, месяц, год)")
+    async def yo(self, message: Message):
+        """> .yo 01.05.1996 | => date, month, year"""
         args = utils.get_args_raw(message)
-
-        if not args:
-            await utils.answer(
-                message,
-                self.strings["no_date"],
-            )
+        try:
+            birth_date = datetime.datetime.strptime(args, "%d.%m.%Y").date()
+        except ValueError:
+            await utils.answer(message, self.strings["no_date"])
             return
 
-        birth_date = datetime.datetime.strptime(args, "%d.%m.%Y").date()
         today_date = datetime.date.today()
+        age_years = today_date.year - birth_date.year - ((today_date.month, today_date.day) < (birth_date.month, birth_date.day))
 
-        age_years = today_date.year - birth_date.year
-
-        if today_date.month < birth_date.month or (
-            today_date.month == birth_date.month and today_date.day < birth_date.day,
-        ):
-            age_years -= 1
-
-        await message.edit(f"😼<b>You [he, she] are <u>{age_years}</u> years old.</b>")
+        await utils.answer(message, self.strings["result"].format(age_years))

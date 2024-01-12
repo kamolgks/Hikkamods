@@ -1,4 +1,4 @@
-__version__ = (1, 0, 0)
+__version__ = (1, 0, 2)
 # *
 # *              $$\       $$\   $$\                                   $$\           $$\
 # *              $$ |      \__|  $$ |                                  $$ |          $$ |
@@ -32,108 +32,125 @@ import requests
 import logging
 import datetime
 
-from telethon.tl.types import Message
+from .. import loader, utils # type: ignore
+from hikkatl.types import Message # type: ignore
 
-from .. import loader, utils
-
-logging = logging.getLogger("HolidayMod")
-
+logging = logging.getLogger(__name__)
 
 @loader.tds
-class HolidayMod(loader.Module):
-    """The module checks whether today is a holiday in your region."""
+class Holiday(loader.Module):
+    """
+    The module checks whether today is a holiday in your region.
+    """
 
     strings = {
         "name": "Holiday",
-        "api_key_doc": "API key for Holiday",
-        "country_doc": "Enter your region",
-        "countries": "<b>A list of all supported countries can be found here - </b>",
-        "no_api_key": "<b>The <u>API key</u> was not found, or you did not specify your region in the module config. You can get the API key on the website [https://calendarific.com ] and enter the key or region in <code>.config Holiday</code></b>"
+        "_cfg_doc_country": "Enter your region",
+        "nocountry": (
+            "<emoji document_id=5269478302967405465>🥰</emoji>"
+            "Specify the country in the module config using the <code>{}config Holiday</code>\n\n"
+            "<emoji document_id=5443038326535759644>💬</emoji>"
+            "You can find your region on the website: {}"
+        ),
+        "noholiday": (
+            "<emoji document_id=5210952531676504517>❌</emoji>"
+            "<b>Today is not a <u>holiday.</u></b>"
+        ),
+        "result": (
+            "<emoji document_id=5273951919428084009>✅</emoji>"
+            "<b>Todat is <u>{}!</u></b>"
+        ),
     }
 
     strings_ru = {
-        "api_key_doc": "API ключ для Holiday",
-        "country_doc": "Введите свой регион",
-        "countries": "<b>Список всех поддерживаемых стран находится здесь - </b>",
-        "no_api_key": "<b>Не найден <u>API-ключ</u>, либо вы не указали свой регион в конфиге модуля. Получить ключ API можно на сайте [https://calendarific.com ] и ввести ключ или регион в <code>.config Holiday</code></b>",
+        "_cfg_doc_country": "Введите свой регион",
+        "nocountry": (
+            "<emoji document_id=5269478302967405465>🥰</emoji>"
+            "Укажите страну в конфиге модуля, используя <code>{}config Holiday</code>\n\n"
+            "<emoji document_id=5443038326535759644>💬</emoji>"
+            "Вы можете найти свой регион на сайте: {}"
+        ),
+        "noholiday": (
+            "<emoji document_id=5210952531676504517>❌</emoji>"
+            "<b>Сегодня не <u>праздник.</u></b>"
+        ),
+        "result": (
+            "<emoji document_id=5273951919428084009>✅</emoji>"
+            "<b>Todat is <u>{}!</u></b>"
+        ),
     }
 
     strings_de = {
-        "api_key_doc": "API-Schlüssel für Feiertag",
-        "country_doc": "Geben Sie Ihre Region ein",
-        "countries": "<b>Liste aller unterstützten Länder ist hier - </b>",
-        "no_api_key": "<b><u>API-Schlüssel</u> nicht gefunden, oder Sie haben Ihre Region nicht in der Modulkonfiguration angegeben. Sie können einen API-Schlüssel auf der Website [https://calendarific.com] erhalten ] und geben Sie den Schlüssel oder die Region in <code>.config Holiday</code></b> ein",
+        "_cfg_doc_country": "Geben Sie Ihre Region ein",
+        "nocountry": (
+            "<emoji document_id=5269478302967405465>🥰</emoji>"
+            "Geben Sie das Land in der Modulkonfiguration mit <code>{}config Holiday</code> an\n\n"
+            "<emoji document_id=5443038326535759644>💬</emoji>"
+            "Ihre Region finden Sie auf der Website: {}"
+        ),
+        "noholiday": (
+            "<emoji document_id=5210952531676504517>❌</emoji>"
+            "<b>Heute ist kein <u>Feiertag.</u></b>"
+        ),
+        "result": (
+            "<emoji document_id=5273951919428084009>✅</emoji>"
+            "<b>Todat is <u>{}!</u></b>"
+        ),
     }
 
     strings_uz = {
-        "api_key_doc": "Bayram uchun API kaliti",
-        "country_doc": "Hududingizni kiriting",
-        "countries": "<b>Qo'llab-quvvatlanadigan barcha mamlakatlar ro'yxati bu yerda - </b>",
-        "no_api_key": "<b><u>API kaliti</u> topilmadi yoki modul konfiguratsiyasida mintaqangizni ko‘rsatmadingiz. API kalitini [https://calendarific.com” veb-saytidan olishingiz mumkin. ] va kalit yoki mintaqani <code>.config Holiday</code></b>-ga kiriting",
+        "_cfg_doc_country": "Hududingizni kiriting",
+        "nocountry": (
+            "<emoji document_id=5269478302967405465>🥰</emoji>"
+            "<code>{}config Holiday</code> yordamida modul konfigida mamlakatni belgilang\n\n"
+            "<emoji document_id=5443038326535759644>💬</emoji>"
+            "Siz o'z mintaqangizni veb-saytda topishingiz mumkin: {}"
+        ),
+        "noholiday": (
+            "<emoji document_id=5210952531676504517>❌</emoji>"
+            "<b>Bugun <u>bayram</u> emas.</b>"
+        ),
+        "result": (
+            "<emoji document_id=5273951919428084009>✅</emoji>"
+            "<b>Todat is <u>{}!</u></b>"
+        ),
     }
 
     def __init__(self):
+        self.name = self.strings["name"]
         self.config = loader.ModuleConfig(
-            loader.ConfigValue(
-                "api_key",
-                None,
-                lambda: self.strings["api_key_doc"],
-                validator=loader.validators.Hidden(loader.validators.String()),
-            ),
             loader.ConfigValue(
                 "country",
                 None,
-                lambda: self.strings["country_doc"],
+                lambda: self.strings["_cfg_doc_country"],
             ),
         )
 
     @loader.command(
-        ru_doc="> Проверяет, является ли сегодня праздником, и отображает информацию об этом празднике",
-        de_doc="> Überprüft, ob heute ein Feiertag ist und zeigt Informationen zu diesem Feiertag an",
-        uz_doc="> Bugun bayram ekanligini tekshiradi va ushbu bayram haqidagi ma'lumotlarni ko'rsatadi",
+        ru_doc="> Проверяет, является ли сегодняшний день праздником.",
+        de_doc="> Überprüft, ob heute ein Feiertag ist.",
+        uz_doc="> Bugun bayram ekanligini tekshiradi.",
     )
     async def holidaycmd(self, message: Message):
-        """> Checks if today is a holiday and displays information about it"""
+        """> Checks if today is a holiday."""
         today = datetime.date.today()
-
         try:
-            api_key = self.config["api_key"]
+            url = "https://calendarific.com/supported-countries"
             country = self.config["country"]
-            if not api_key or not country:
-                await utils.answer(
-                    message,
-                    self.strings["no_api_key"],
-                )
-                return
+            if not country:
+                return await utils.answer(message, self.strings["nocountry"].format(self.get_prefix(), url))
 
-            response = requests.get(
-                f"https://calendarific.com/api/v2/holidays?api_key={api_key}&country={country}&year={today.year}&month={today.month}&day={today.day}",
-            )
-            response.raise_for_status()
-            rj = response.json()
-            holidays = rj.get("response").get("holidays")
-            if holidays:
-                holiday_name = holidays[0].get("name")
-                await utils.answer(message, f"🥳<b>Todat is <u>{holiday_name}!</u></b>")
-                logging.INFO("🥳Сongratulations!")
-            else:
-                await utils.answer(message, "<b>❌Today is not a <u>holiday.</u></b>")
+            data = (await utils.run_sync(requests.get, f"https://calendarific.com/api/v2/holidays?api_key=3381856f5d6de11793562e3463c231b0a129d48d&country={country}&year={today.year}&month={today.month}&day={today.day}")).json()
+            if data.get("response"):
+                holidays = data["response"].get("holidays")
+                if holidays:
+                    holiday_name = holidays[0].get("name")
+                    await utils.answer(message, self.strings["result"].format(holiday_name))
+                else:
+                    await utils.answer(message, self.strings["noholiday"])
 
         except requests.exceptions.RequestException as e:
             await utils.answer(message, "<b>❌An error occurred while requesting the API: <u>{}</u></b>".format(e))
 
         except (KeyError, IndexError) as e:
             await utils.answer(message, "<b>❌Failed to get holiday data: <u>{}</u></b>".format(e))
-
-    @loader.command(
-        ru_doc="> Поддерживаемые регионы",
-        de_doc="> Unterstützte Regionen",
-        uz_doc="> Qo'llab-quvvatlanadigan hududlar",
-    )
-    async def countriescmd(self, message: Message):
-        """> Supported regions"""
-        link = "https://calendarific.com/supported-countries"
-        await utils.answer(
-            message,
-            self.strings("countries") + link,
-        )
